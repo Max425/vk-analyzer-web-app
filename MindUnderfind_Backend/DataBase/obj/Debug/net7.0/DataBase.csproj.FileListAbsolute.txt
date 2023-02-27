@@ -1,0 +1,12 @@
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\bin\Debug\net7.0\DataBase.deps.json
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\bin\Debug\net7.0\DataBase.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\bin\Debug\net7.0\DataBase.pdb
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.csproj.AssemblyReference.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.GeneratedMSBuildEditorConfig.editorconfig
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.AssemblyInfoInputs.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.AssemblyInfo.cs
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.csproj.CoreCompileInputs.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\refint\DataBase.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\DataBase.pdb
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBase\obj\Debug\net7.0\ref\DataBase.dll

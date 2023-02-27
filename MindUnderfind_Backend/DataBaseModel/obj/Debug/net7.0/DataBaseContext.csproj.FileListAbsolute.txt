@@ -1,0 +1,17 @@
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.csproj.AssemblyReference.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.GeneratedMSBuildEditorConfig.editorconfig
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.AssemblyInfoInputs.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.AssemblyInfo.cs
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.csproj.CoreCompileInputs.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseContext.deps.json
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseContext.runtimeconfig.json
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseContext.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseContext.pdb
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\refint\DataBaseContext.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.pdb
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.genruntimeconfig.cache
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\ref\DataBaseContext.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseModels.dll
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\bin\Debug\net7.0\DataBaseModels.pdb
+D:\myProgects\Бауманка\ЯПП_Экзамен_Примеры\MindUnderfind_Backend\DataBaseModel\obj\Debug\net7.0\DataBaseContext.csproj.CopyComplete
