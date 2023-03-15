@@ -6,13 +6,34 @@ using System.Threading.Tasks;
 
 namespace DataBaseAPI
 {
-    internal interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetBookList(); // получение всех объектов
-        T GetBook(int id); // получение одного объекта по id
-        void Create(T item); // создание объекта
-        void Update(T item); // обновление объекта
-        void Delete(int id); // удаление объекта по id
-        void Save();  // сохранение изменений
+        /// <summary>
+        /// Получение всех объектов данного репазитория
+        /// </summary>
+        /// <returns>IEnumerable<T></returns>
+        IEnumerable<T> GetList();
+        /// <summary>
+        /// Получение одного объекта по ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        T Get(int id);
+        /// <summary>
+        /// создание объекта
+        /// </summary>
+        /// <param name="item"></param>
+        void CreateAsync(T item);
+        /// <summary>
+        /// обновление объекта
+        /// </summary>
+        /// <param name="item"></param>
+        void UpdateAsync(T item);
+        /// <summary>
+        /// удаление объекта по ID
+        /// </summary>
+        /// <param name="id"></param>
+        void DeleteAsync(int id);
+        //void Save();  // сохранение изменений
     }
 }

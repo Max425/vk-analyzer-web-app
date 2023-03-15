@@ -1,13 +1,16 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DataBaseContext;
 using DataBaseModels;
 
 namespace DataBaseAPI
 {
-    public partial class DataBase
+    public class ApiUser : IRepository<User>
     {
-        public List<User> GetListOfUser()
+        public IEnumerable<User> GetList()
         {
             List<User> users = new();
 
@@ -20,7 +23,19 @@ namespace DataBaseAPI
             return users;
         }
 
-        public async Task AddUser(User user)
+        public User Get(int id)
+        {
+            User user = new();
+
+            using (Context db = new Context())
+            {
+                user = db.Users.Find(id);
+            }
+
+            return user;
+        }
+
+        public async void CreateAsync(User user)
         {
             using (Context db = new Context())
             {
@@ -34,7 +49,7 @@ namespace DataBaseAPI
             }
         }
 
-        public async Task ChangeUser(User newUser)
+        public async void UpdateAsync(User newUser)
         {
             using (Context db = new Context())
             {
@@ -51,29 +66,16 @@ namespace DataBaseAPI
             }
         }
 
-        public async Task DeleteUser(int Id)
+        public async void DeleteAsync(int id)
         {
             using (Context db = new Context())
             {
-                var delete = db.Users.FirstOrDefault(x => x.VkId == Id);
+                var delete = db.Users.FirstOrDefault(x => x.VkId == id);
                 if (delete != null)
                     db.Users.Remove(delete);
 
                 await db.SaveChangesAsync();
             }
         }
-
-        public User GetUser(int VkId)
-        {
-            User user;
-
-            using (Context db = new Context())
-            {
-                user = db.Users.Find(VkId);
-            }
-
-            return user;
-        }
-
     }
 }

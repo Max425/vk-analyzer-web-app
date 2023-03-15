@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using System.Numerics;
-using DataBaseContext;
+﻿using DataBaseContext;
 using DataBaseModels;
 
 namespace DataBaseAPI
 {
-    public partial class DataBase
+    public class ApiCommunity : IRepository<Community>
     {
-        public List<Community> GetListOfCommunities()
+        public IEnumerable<Community> GetList()
         {
             List<Community> communities = new();
 
@@ -20,7 +18,19 @@ namespace DataBaseAPI
             return communities;
         }
 
-        public async Task AddCommunity(Community community)
+        public Community Get(int id)
+        {
+            Community comm;
+
+            using (Context db = new Context())
+            {
+                comm = db.Communities.Find(id);
+            }
+
+            return comm;
+        }
+
+        public async void CreateAsync(Community community)
         {
             using (Context db = new Context())
             {
@@ -34,7 +44,7 @@ namespace DataBaseAPI
             }
         }
 
-        public async Task ChangeCommunity(Community community)
+        public async void UpdateAsync(Community community)
         {
             using (Context db = new Context())
             {
@@ -49,7 +59,7 @@ namespace DataBaseAPI
             }
         }
 
-        public async Task DeleteCommunity(int vkid)
+        public async void DeleteAsync(int id)
         {
             using (Context db = new Context())
             {
@@ -60,18 +70,5 @@ namespace DataBaseAPI
                 await db.SaveChangesAsync();
             }
         }
-
-        public Community GetCommunity(int VkId)
-        {
-            Community comm;
-
-            using (Context db = new Context())
-            {
-                comm = db.Communities.Find(VkId);
-            }
-
-            return comm;
-        }
-
     }
 }
