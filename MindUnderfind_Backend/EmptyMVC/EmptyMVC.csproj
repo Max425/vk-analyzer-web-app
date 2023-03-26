@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Analyst\Analyst.csproj" />
     <ProjectReference Include="..\DataBaseModels\DataBaseModels.csproj" />
     <ProjectReference Include="..\DataBaseModel\DataBaseContext.csproj" />
     <ProjectReference Include="..\DataBase\DataBaseAPI.csproj" />

@@ -3,7 +3,7 @@ using VkNet.Enums.Filters;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 
-namespace ConsoleApp1;
+namespace VkApiModul;
 
 public class VkApiWorker
 {

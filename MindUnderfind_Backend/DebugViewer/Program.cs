@@ -12,9 +12,9 @@ namespace DebugViewer
         static void Main()
         {
             Console.WriteLine("Start Console Worker!");
-            ConsoleWorker worker = new ConsoleWorker();
-            worker.InitDB();
-            worker.StartWork();
+            //ConsoleWorker worker = new ConsoleWorker();
+            //worker.InitDB();
+            //worker.StartWork();
 
         }
     }

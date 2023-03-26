@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Analyst;
 
 namespace EmptyMVC.Controllers
 {
@@ -13,6 +14,7 @@ namespace EmptyMVC.Controllers
             return View("Request");
         }
 
+        [ActionName("Request")]
         [HttpPost]
         public void ProcessRequest(ProcessDto process)
         {
@@ -22,7 +24,10 @@ namespace EmptyMVC.Controllers
 
         public IActionResult Answer (ProcessDto process)
         {
-            var answer = new AnswerModel(process.VkId, process.ProcessType, process.ComVkId);
+            AnalystWorker analyst = new AnalystWorker();
+            ResponseDao result = analyst.GetData(new RequestDao(process.VkId));
+
+            var answer = new AnswerModel(process.VkId, process.ProcessType, process.ComVkId, result.UserArr);
             return View("Answer", answer);
         }
 

@@ -7,7 +7,7 @@ using DataBaseAPI;
 using DataBaseContext;
 
 namespace DebugViewer
-{
+{/*
     public class ConsoleWorker
     {
         private int counter = 1;
@@ -18,7 +18,7 @@ namespace DebugViewer
 
         public void StartWork()
         {
-            DataBase db = new DataBase();
+            ApiUser db = new ApiUser();
             string line = "";
             while (line != "Exit")
             {
@@ -28,7 +28,7 @@ namespace DebugViewer
             }
         }
 
-        private async void DoWork(DataBase db, string line)
+        private async void DoWork(IRepository<DataBaseModels.User> db, string line)
         {
             
             switch (line)
@@ -38,17 +38,17 @@ namespace DebugViewer
                     var login = Console.ReadLine();
                     Console.WriteLine("type Pass");
                     var pass = Console.ReadLine();
-                    await db.AddUser(new DataBaseModels.User(counter++, login, pass, "user"));
+                    await db.CreateAsync(new DataBaseModels.User(counter++, login, pass, "user"));
                     break;
                 case "AddAdmin":
                     Console.WriteLine("type Pass");
                     var loginAdmin = Console.ReadLine();
                     Console.WriteLine("type Pass");
                     var passAdmin = Console.ReadLine();
-                    await db.AddUser(new DataBaseModels.User(counter++, loginAdmin, passAdmin, "admin"));
+                    await db.CreateAsync(new DataBaseModels.User(counter++, loginAdmin, passAdmin, "admin"));
                     break;
                 case "AddSame":
-                    await db.AddUser(new DataBaseModels.User(2, "pass", "rik"));
+                    await db.CreateAsync(new DataBaseModels.User(2, "pass", "rik"));
                     break;
                 case "Change":
                     await db.ChangeUser(new DataBaseModels.User(1, "admin", "pass", "riker"));
@@ -72,5 +72,5 @@ namespace DebugViewer
         }
 
 
-    }
+    }*/
 }

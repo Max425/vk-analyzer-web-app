@@ -22,9 +22,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DebugViewer", "DebugViewer\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseModels", "DataBaseModels\DataBaseModels.csproj", "{1D730D9D-36FF-4F9C-A2AF-3CE169FEE9CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VK_API", "VK_API\VK_API.csproj", "{EA4F2715-1BD4-466C-B1CB-6179691C3F6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VkApi", "VK_API\VkApi.csproj", "{EA4F2715-1BD4-466C-B1CB-6179691C3F6D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmptyMVC", "EmptyMVC\EmptyMVC.csproj", "{393EFC70-002C-40AF-BAFD-044FCDDE7AD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analyst", "Analyst\Analyst.csproj", "{1F3E2DA5-73C1-466B-9692-28AA9B21EB31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{393EFC70-002C-40AF-BAFD-044FCDDE7AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{393EFC70-002C-40AF-BAFD-044FCDDE7AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{393EFC70-002C-40AF-BAFD-044FCDDE7AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F3E2DA5-73C1-466B-9692-28AA9B21EB31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F3E2DA5-73C1-466B-9692-28AA9B21EB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F3E2DA5-73C1-466B-9692-28AA9B21EB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F3E2DA5-73C1-466B-9692-28AA9B21EB31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
