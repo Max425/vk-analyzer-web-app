@@ -6,7 +6,7 @@ using Analyst;
 
 namespace EmptyMVC.Controllers
 {
-    public class HomeController : Controller
+    public class ProcessController : Controller
     {
         [ActionName("Request")]
         public IActionResult ProcessRequest()

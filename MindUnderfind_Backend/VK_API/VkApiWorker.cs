@@ -7,7 +7,7 @@ namespace VkApiModul;
 
 public class VkApiWorker
 {
-    private VkApiWorker(VkApi api) => _api = api;
+    public VkApiWorker(VkApi api) => _api = api;
     private readonly VkApi _api;
 
     public List<Group>? GetUserGroups(User user)

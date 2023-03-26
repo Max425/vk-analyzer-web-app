@@ -55,7 +55,7 @@ namespace Analyst
                 Settings = Settings.All
             });
 
-            //VkApiWorker vk = new(api);
+            VkApiWorker vk = new(api);
             User user = new VkNet.Model.User();
             user.Id = request.VkId;
 
