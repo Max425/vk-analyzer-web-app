@@ -11,13 +11,19 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class Community
     {
-        public int VkId { get; set; }
+        public long VkId { get; set; }
         public Community() { }
-        public Community(int vkId)
+        public Community(long vkId)
         {
             VkId = vkId;
         }
 
         public override string ToString() => $"Community VkId: {VkId}.";
+        public override bool Equals(object? obj)
+        {
+            if (obj is Community com) return VkId == com.VkId;
+            return false;
+        }
+        public override int GetHashCode() => VkId.GetHashCode();
     }
 }

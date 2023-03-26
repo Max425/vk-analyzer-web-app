@@ -18,5 +18,12 @@ namespace DataBaseModels
         }
 
         public override string ToString() => $"Chain {ChainId} : {CommunityId.VkId} - {UserAccountId.VkId}";
+        public override bool Equals(object? obj)
+        {
+            if (obj is CommunityUser cu) return ChainId == cu.ChainId;
+            return false;
+        }
+        public override int GetHashCode() => ChainId.GetHashCode();
+
     }
 }

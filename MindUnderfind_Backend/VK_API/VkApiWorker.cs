@@ -44,17 +44,19 @@ public class VkApiWorker
          }).ToList();
      }
     
-    public List<User> GetUserFriendsAndThereFriends()
+    public List<User> GetUserFriendsAndThereFriends(User user)
     {
         var friends = _api.Friends.Get(new FriendsGetParams
         {
-            UserId = _api.UserId,
+            UserId = user.Id,
         }).ToList();
+
+        var result = new List<User>(friends);
 
         foreach (var friend in friends)
         {
-            friends.AddRange(GetUserFriends(friend)!);
+            result.AddRange(GetUserFriends(friend)!);
         }
-        return friends;
+        return result;
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataBaseContext;
+﻿using DataBaseContext;
 using DataBaseModels;
 
 namespace DataBaseAPI
@@ -58,8 +53,6 @@ namespace DataBaseAPI
                 if (user != null)
                 {
                     user.VkId = newUser.VkId;
-                    user.Login = newUser.Login;
-                    user.Password = newUser.Password;
                 }
 
                 await db.SaveChangesAsync();

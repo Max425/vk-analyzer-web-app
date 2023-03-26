@@ -23,6 +23,12 @@ namespace DataBaseModels
             VkId2 = id2;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is UserFriend uf) return ChainId == uf.ChainId;
+            return false;
+        }
+        public override int GetHashCode() => ChainId.GetHashCode();
         public override string ToString() => $"UserFriend Chain {ChainId} between: {VkId1} - {VkId2}";
     }
 }

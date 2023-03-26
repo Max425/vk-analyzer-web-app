@@ -10,19 +10,17 @@ namespace EmptyMVC.Views.Home
         public Process ProcessType { get; set; } = Process.None;
         public int ComVkId { get; set; } = -1;
         public List<long> UsersArr { get; set; } = new List<long>();
+        public List<long> GroupsArr { get; set; } = new List<long>();
 
         public AnswerModel() { }
-        public AnswerModel(int vkId, Process processType, int comVkId, List<long> usersArr)
+        public AnswerModel(int vkId, Process processType, int comVkId, List<long> usersArr,
+                            List<long> groupsArr)
         {
             VkId = vkId;
             ProcessType = processType;
             ComVkId = comVkId;
             UsersArr = usersArr;
-        }
-
-        public void OnGet()
-        {
-
+            GroupsArr = groupsArr;
         }
     }
 }

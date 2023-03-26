@@ -11,20 +11,21 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class User
     {
-        public int VkId { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Rights { get; set; }
+        public long VkId { get; set; }
+        public bool Rights { get; set; }
 
         public User() { }
-        public User(int vkId, string login, string password, string rights = "user")
+        public User(long vkId, bool rights = false)
         {
             VkId = vkId;
-            Login = login;
-            Password = password;
             Rights = rights;
         }
-
-        public override string ToString() => $"UserAccount {VkId} with VkId {VkId}.\nLogin: {Login}\nPassword: {Password}";
+        public override bool Equals(object? obj)
+        {
+            if (obj is User user) return VkId == user.VkId;
+            return false;
+        }
+        public override int GetHashCode() => VkId.GetHashCode();
+        public override string ToString() => $"UserAccount {VkId} with VkId {VkId}.";
     }
 }

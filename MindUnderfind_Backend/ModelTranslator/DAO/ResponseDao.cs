@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Analyst
+namespace ModelTranslator.DAO
 {
     public class ResponseDao
     {
@@ -13,6 +13,7 @@ namespace Analyst
         public int VkId { get; set; }
         public int ComVkId { get; set; } = -1;
         public List<long> UserArr { get; set; }
+        public List<long> GroupArr { get; set; }
         public ResponseDao(int vkId)
         {
             VkId = vkId;

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Analyst
+namespace ModelTranslator.DAO
 {
     public class UserDao
     {
-        public string VkId { get; set; }
+        public int VkId { get; set; }
 
     }
 }

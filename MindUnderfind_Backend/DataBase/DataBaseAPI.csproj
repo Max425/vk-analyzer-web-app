@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataBaseModels\DataBaseModels.csproj" />
     <ProjectReference Include="..\DataBaseModel\DataBaseContext.csproj" />
+    <ProjectReference Include="..\ModelTranslator\ModelTranslator.csproj" />
   </ItemGroup>
 
 </Project>
