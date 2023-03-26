@@ -1,4 +1,4 @@
-﻿namespace EmptyMVC
+﻿namespace ModelTranslator
 {
     public enum Process
     {

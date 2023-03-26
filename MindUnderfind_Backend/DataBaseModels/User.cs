@@ -11,13 +11,17 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class User
     {
-        public long VkId { get; set; }
+        public int VkId { get; set; }
         public bool Rights { get; set; }
 
-        public User() { }
+        public List<CommunityUser> CommunityUsers { get; set; }
+        public List<Community> Communities { get; set; }
+        public List<User> Users { get; set; }
+        public List<UserFriend> UserFriends { get; set; }
+        //public User() { }
         public User(long vkId, bool rights = false)
         {
-            VkId = vkId;
+            VkId = (int)vkId;
             Rights = rights;
         }
         public override bool Equals(object? obj)

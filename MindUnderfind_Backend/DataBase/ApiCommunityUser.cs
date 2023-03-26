@@ -1,5 +1,6 @@
 ﻿using DataBaseContext;
 using DataBaseModels;
+using System.Runtime.CompilerServices;
 
 namespace DataBaseAPI
 {
@@ -34,12 +35,11 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                communityUser.ChainId = communityUser.CommunityId.ToString() + communityUser.UserAccountId.ToString();
-
                 var cuArr = db.CommunityUser;
-                var cuIdArr = cuArr.Select(x => x.ChainId);
+                var cuIdArr = cuArr.Select((x) => $"{x.CommunityId}{x.UserId}");
+                string chain = $"{communityUser.CommunityId}{communityUser.UserId}";
 
-                if (!cuIdArr.Contains(communityUser.ChainId))
+                if (!cuIdArr.Contains(chain))
                     cuArr.Add(communityUser);
 
                 await db.SaveChangesAsync();
@@ -50,10 +50,16 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                CommunityUser? communityUser = db.CommunityUser.FirstOrDefault(x => x.ChainId == newCommunityUser.ChainId);
+                CommunityUser? communityUser = db.CommunityUser.FirstOrDefault(x => x.CommunityId == newCommunityUser.CommunityId
+                                                                                    && x.UserId == newCommunityUser.UserId);
+                                                                                                        
 
                 if (communityUser != null)
-                    communityUser.ChainId = newCommunityUser.ChainId;
+                {
+                    communityUser.CommunityId = newCommunityUser.CommunityId;
+                    communityUser.UserId = newCommunityUser.UserId;
+                }
+                    
 
                 await db.SaveChangesAsync();
             }
@@ -63,7 +69,7 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                var delete = db.CommunityUser.FirstOrDefault(x => x.ChainId == id.ToString());
+                var delete = db.CommunityUser.FirstOrDefault(x => $"{x.CommunityId}{x.UserId}".GetHashCode() == id);
 
                 if (delete != null)
                     db.CommunityUser.Remove(delete);

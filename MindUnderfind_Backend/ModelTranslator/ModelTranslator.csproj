@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DBO\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="VkNet" Version="1.72.0" />
   </ItemGroup>
 

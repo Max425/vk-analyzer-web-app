@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.Tracing;
+using ModelTranslator;
 
 namespace EmptyMVC.Views.Home
 {

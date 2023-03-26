@@ -8,27 +8,28 @@ using System.Text;
 
 namespace DataBaseModels
 {
-    [PrimaryKey("ChainId")]
     public class UserFriend
     {
-        public string ChainId { get; set; }
-        public int VkId1 { get; set; }
-        public int VkId2 { get; set; }
+        public int FirstVkId { get; set; }
+        public User? FirstUser { get; set; }
+        public int SecondVkId { get; set; }
+        public User? SecondUser { get; set; }
 
-        public UserFriend() { }
-        public UserFriend(int id1, int id2)
+        //public UserFriend() { }
+        public UserFriend(long id1, long id2)
         {
-            ChainId = id1.ToString() + id2.ToString();
-            VkId1 = id1;
-            VkId2 = id2;
+            FirstVkId = (int)id1;
+            SecondVkId = (int)id2;
         }
+
+        public UserFriend(User u1, User u2) : this(u1.VkId, u2.VkId) { }
 
         public override bool Equals(object? obj)
         {
-            if (obj is UserFriend uf) return ChainId == uf.ChainId;
+            if (obj is UserFriend uf) return FirstVkId == uf.FirstVkId && SecondVkId == uf.SecondVkId;
             return false;
         }
-        public override int GetHashCode() => ChainId.GetHashCode();
-        public override string ToString() => $"UserFriend Chain {ChainId} between: {VkId1} - {VkId2}";
+        public override int GetHashCode() => $"{FirstVkId}{SecondVkId}".GetHashCode();
+        public override string ToString() => $"UserFriend Chain : {FirstVkId} - {SecondVkId}";
     }
 }

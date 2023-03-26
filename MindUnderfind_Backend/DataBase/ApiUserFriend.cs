@@ -34,12 +34,11 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                userFriend.ChainId = userFriend.VkId1.ToString() + userFriend.VkId2.ToString();
-
                 var ufArr = db.UserFriend;
-                var ufIdArr = ufArr.Select(x => x.ChainId);
+                var ufIdArr = ufArr.Select(x => $"{x.FirstVkId}{x.SecondVkId}");
+                string chain = $"{userFriend.FirstVkId}{userFriend.SecondVkId}";
 
-                if (!ufIdArr.Contains(userFriend.ChainId))
+                if (!ufIdArr.Contains(chain))
                     ufArr.Add(userFriend);
 
                 await db.SaveChangesAsync();
@@ -50,10 +49,15 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                UserFriend? userFriend = db.UserFriend.FirstOrDefault(x => x.ChainId == newUserFriend.ChainId);
+                UserFriend? userFriend = db.UserFriend.FirstOrDefault(x => x.FirstVkId == newUserFriend.FirstVkId
+                                                                                    && x.SecondVkId == newUserFriend.SecondVkId);
 
                 if (userFriend != null)
-                    userFriend.ChainId = newUserFriend.ChainId;
+                {
+                    userFriend.FirstVkId = newUserFriend.FirstVkId;
+                    userFriend.SecondVkId = newUserFriend.SecondVkId;
+                }
+                    
 
                 await db.SaveChangesAsync();
             }
@@ -63,7 +67,7 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                var delete = db.UserFriend.FirstOrDefault(x => x.ChainId == id.ToString());
+                var delete = db.UserFriend.FirstOrDefault(x => $"{x.FirstVkId}{x.SecondVkId}".GetHashCode() == id);
 
                 if (delete != null)
                     db.UserFriend.Remove(delete);

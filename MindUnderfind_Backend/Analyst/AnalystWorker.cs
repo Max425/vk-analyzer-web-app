@@ -16,7 +16,7 @@ namespace Analyst
         public ResponseDao GetData (RequestDao request)
         {
             bool isNeedRequestToVkApi = false;
-            ProcessDao BbResult = CheckDb(request, out isNeedRequestToVkApi);
+            DataDao BbResult = CheckDb(request, out isNeedRequestToVkApi);
             //доступ к бд пока не сделан - нужна еще одна прослойка
             // Рома, не забудь
 
@@ -30,19 +30,19 @@ namespace Analyst
             }
 
             ResponseDao result = new ResponseDao(request.VkId);
-            //result.UserArr = VkResult.GroupUsers.Select(x => x.Id).ToList();
-            result.GroupArr = VkResult.UserGroups?.Select(x => x.VkId).ToList();
+            result.UserArr.AddRange(VkResult.GroupUsers);
+            result.GroupArr.AddRange(VkResult.UserGroups);
 
             return result;
         }
 
-        public ProcessDao CheckDb(RequestDao requestDao, out bool needRequest)
+        public DataDao CheckDb(RequestDao requestDao, out bool needRequest)
         {
             needRequest = false;
 
             // check db func
 
-            return new ProcessDao(new List<int> { 1, 2, 3}, new List<int> { 4, 5, 6}, new Dictionary<int, int> { {1, 4}, {2, 4} });
+            return new DataDao(new List<int> { 1, 2, 3}, new List<int> { 4, 5, 6}, new Dictionary<int, int> { {1, 4}, {2, 4} });
         }
 
         public VkDao RequestVkApi(RequestDao request)
@@ -65,22 +65,30 @@ namespace Analyst
             // Get Data
             vkDto.UserGroups = vk.GetUserGroups(user);
 
+            if (request.ComVkId > 0)
+            {
+                vkDto.GroupUsers = vk.GetUsersByGroupId(request.ComVkId.ToString());
+            }
+
             VkDao vkDao = vkDto.ToVkDao();
 
             // Send to DB
             DataBase db = new DataBase();
             ApiUser apiUser = new ApiUser();
             ApiCommunity apiCom = new ApiCommunity();
-            db.AddList<Community>(apiCom, vkDto.ToVkDao().UserGroups);
+            ApiCommunityUser apiComUser = new ApiCommunityUser();
+
+
+            db.AddList<DataBaseModels.Community>(apiCom, vkDao.UserGroups);
+            db.AddList<DataBaseModels.User>(apiUser, vkDao.GroupUsers);
+
+            db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
 
             /*vkDao.UserFri = vk.GetUserFriends(user);
             vkDao.UserFriFri = vk.GetUserFriendsAndThereFriends(user);
 
-            if (request.ComVkId != -1)
-            {
-                vkDao.GroupUsers = vk.GetUsersByGroupId(request.ComVkId.ToString());
-            }*/
+            */
 
             return vkDao;
         }
