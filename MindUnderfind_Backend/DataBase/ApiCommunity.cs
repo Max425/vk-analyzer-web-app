@@ -63,7 +63,7 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                var delete = db.Communities.FirstOrDefault(x => x.VkId == vkid);
+                var delete = db.Communities.FirstOrDefault(x => x.VkId == id);
                 if (delete != null)
                     db.Communities.Remove(delete);
 

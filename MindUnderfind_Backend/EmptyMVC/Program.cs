@@ -5,6 +5,6 @@ var app = builder.Build();
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", async (context) => context.Response.Redirect("/Home/ProcessRequest"));
 
 app.Run();

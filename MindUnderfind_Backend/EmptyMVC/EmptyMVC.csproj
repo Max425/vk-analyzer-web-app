@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataBaseModels\DataBaseModels.csproj" />
+    <ProjectReference Include="..\DataBaseModel\DataBaseContext.csproj" />
+    <ProjectReference Include="..\DataBase\DataBaseAPI.csproj" />
+  </ItemGroup>
+
 </Project>
