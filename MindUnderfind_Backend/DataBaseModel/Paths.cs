@@ -11,6 +11,6 @@ namespace DataBaseContext
         //Перед началом работы вставьте пароль
         //В конце работы перед отправкой в облако - удали
         public Dictionary<string, string> paths = new Dictionary<string, string>()
-        { { "testPath", "Host=localhost;Port=5432;Database=test_for_web;Username=postgres;Password=Uthfym5144172" }, };
+        { { "testPath", "Host=localhost;Port=5432;Database=test_for_web_3;Username=postgres;Password=Uthfym5144172" }, };
     }
 }

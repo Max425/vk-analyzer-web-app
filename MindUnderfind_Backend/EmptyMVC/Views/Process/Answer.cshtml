@@ -1,4 +1,9 @@
 ﻿@model EmptyMVC.Views.Home.AnswerModel
+@{
+    string VkId = $"VkId: {Model.VkId}";
+    string ProcessType = $"ProcessType: {Model.ProcessType}";
+    string ComVkId = $"ComVkId: {Model.ComVkId}";
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,13 +11,19 @@
     <meta charset="utf-8" />
 </head>
 <body>
-    <h2>@{
-            string str = $"VkId: {Model.VkId}";
-        }@str</h2>
-    <h2>@Model.ProcessType</h2>
-    <h2>@Model.ComVkId</h2>
-    @foreach (var group in Model.GroupsArr) {
-        <h3>@group</h3>
+    <p>@VkId</p>
+    <p>@ProcessType</p>
+    <p>@ComVkId</p>
+    <h2>GROUPS</h2>
+    @foreach (var group in Model.GroupsArr)
+    {
+        <h4>@group</h4>
+    }
+
+    <h2>USERS</h2>
+    @foreach (var user in Model.UsersArr)
+    {
+            <h4>@user</h4>
     }
 </body>
 </html>

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Analyst;
 using ModelTranslator.DAO;
+using ModelTranslator.DTO;
+using ModelTranslator;
 
 namespace EmptyMVC.Controllers
 {
@@ -23,16 +25,16 @@ namespace EmptyMVC.Controllers
             Response.Redirect($"/Process/Answer?VkId={process.VkId}&ProcessType={process.ProcessType}&ComVkId={process.ComVkId}");
         }
 
-        public IActionResult Answer (ProcessDto process)
+        public IActionResult Answer (ProcessDto processDto)
         {
             AnalystWorker analyst = new AnalystWorker();
-            ResponseDao result = analyst.GetData(new RequestDao(process.VkId));
+            ResponseDao responseDto = analyst.GetData(processDto.ToRequestDao());
 
-            var answer = new AnswerModel(process.VkId, process.ProcessType, process.ComVkId, result.UserArr, result.GroupArr);
+            var answer = new AnswerModel(processDto, responseDto);
             return View("Answer", answer);
         }
 
-        public record class ProcessDto(int VkId = -1, Process ProcessType = Process.None, int ComVkId = -1);
+        
 
         
     }

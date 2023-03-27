@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.Tracing;
+using DataBaseModels;
+using ModelTranslator.DAO;
+using ModelTranslator.DTO;
+using ModelTranslator;
 
 namespace EmptyMVC.Views.Home
 {
@@ -9,12 +13,12 @@ namespace EmptyMVC.Views.Home
         public int VkId { get; set; } = -1;
         public Process ProcessType { get; set; } = Process.None;
         public int ComVkId { get; set; } = -1;
-        public List<long> UsersArr { get; set; } = new List<long>();
-        public List<long> GroupsArr { get; set; } = new List<long>();
+        public List<User> UsersArr { get; set; } = new();
+        public List<Community> GroupsArr { get; set; } = new();
 
         public AnswerModel() { }
-        public AnswerModel(int vkId, Process processType, int comVkId, List<long> usersArr,
-                            List<long> groupsArr)
+        public AnswerModel(int vkId, Process processType, int comVkId, List<User> usersArr,
+                            List<Community> groupsArr)
         {
             VkId = vkId;
             ProcessType = processType;
@@ -22,5 +26,6 @@ namespace EmptyMVC.Views.Home
             UsersArr = usersArr;
             GroupsArr = groupsArr;
         }
+        public AnswerModel(ProcessDto dto, ResponseDao dao) : this(dto.VkId, dto.ProcessType, dto.ComVkId, dao.UserArr, dao.GroupArr) { }
     }
 }

@@ -10,13 +10,12 @@ namespace ModelTranslator.DAO
     {
         public int VkId { get; set; }
         public int ComVkId { get; set; } = -1;
-        public RequestDao(int vkId)
+        public Process ProcessType { get; set; } = Process.None;
+        public RequestDao(int vkId, int comVkId = -1, Process process = Process.None)
         {
             VkId = vkId;
-        }
-        public RequestDao(int vkId, int comVkId) : this(vkId)
-        {
             ComVkId = comVkId;
+            ProcessType = process;
         }
     }
 }

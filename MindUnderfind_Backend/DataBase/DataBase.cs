@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataBaseModels;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,30 @@ namespace DataBaseAPI
                 repo.CreateAsync(el);
             }
         }
+
+        public void AddRelationsList(IRepository<UserFriend> repo, User one, List<User> many)
+        {
+            foreach (var el in many)
+            {
+                repo.CreateAsync(new UserFriend(one, el));
+            }
+        }
+
+        public void AddRelationsList(IRepository<CommunityUsers> repo, Community one, List<User> many)
+        {
+            foreach (var el in many)
+            {
+                repo.CreateAsync(new CommunityUsers(one, el));
+            }
+        }
+        public void AddRelationsList(IRepository<CommunityUsers> repo, User one, List<Community> many)
+        {
+            foreach (var el in many)
+            {
+                repo.CreateAsync(new CommunityUsers(el, one));
+            }
+        }
+
 
     }
 }

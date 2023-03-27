@@ -2,28 +2,28 @@
 
 namespace DataBaseModels
 {
-    [PrimaryKey("ChainId")]
-    public class CommunityUser
+    public class CommunityUsers
     {
-        public string ChainId { get; set; }
-        public Community CommunityId { get; set; }
-        public User UserAccountId { get; set; }
+        public int CommunityId { get; set; }
+        public Community? Community { get; set; }
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
-        public CommunityUser() { }
-        public CommunityUser(Community communityId, User userAccountId)
+        
+        public CommunityUsers() { }
+        public CommunityUsers(Community communityId, User userId)
         {
-            ChainId = communityId.ToString() + userAccountId.ToString();
-            CommunityId = communityId;
-            UserAccountId = userAccountId;
+            CommunityId = communityId.VkId;
+            UserId = userId.VkId;
         }
 
-        public override string ToString() => $"Chain {ChainId} : {CommunityId.VkId} - {UserAccountId.VkId}";
+        public override string ToString() => $"Chain : {CommunityId} - {UserId}";
         public override bool Equals(object? obj)
         {
-            if (obj is CommunityUser cu) return ChainId == cu.ChainId;
+            if (obj is CommunityUsers cu) return CommunityId == cu.CommunityId && UserId == cu.UserId;
             return false;
         }
-        public override int GetHashCode() => ChainId.GetHashCode();
+        public override int GetHashCode() => $"{CommunityId}{UserId}".GetHashCode();
 
     }
 }

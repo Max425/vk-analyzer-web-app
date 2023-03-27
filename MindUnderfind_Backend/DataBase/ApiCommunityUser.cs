@@ -1,59 +1,65 @@
 ﻿using DataBaseContext;
 using DataBaseModels;
+using System.Runtime.CompilerServices;
 
 namespace DataBaseAPI
 {
-    public class ApiCommunityUser : IRepository<CommunityUser>
+    public class ApiGroupUser : IRepository<CommunityUsers>
     {
-        public IEnumerable<CommunityUser> GetList()
+        public IEnumerable<CommunityUsers> GetList()
         {
-            List<CommunityUser> cu = new();
+            List<CommunityUsers> cu = new();
 
             using (Context db = new Context())
             {
                 //забираем данные
-                cu = db.CommunityUser.ToList();
+                cu = db.CommunityUsers.ToList();
             }
 
             return cu;
         }
 
-        public CommunityUser Get(int id)
+        public CommunityUsers Get(int id)
         {
-            CommunityUser cu;
+            CommunityUsers cu;
 
             using (Context db = new Context())
             {
-                cu = db.CommunityUser.Find(id.ToString());
+                cu = db.CommunityUsers.Find(id.ToString());
             }
 
             return cu;
         }
 
-        public async void CreateAsync(CommunityUser communityUser)
+        public async void CreateAsync(CommunityUsers CommunityUsers)
         {
             using (Context db = new Context())
             {
-                communityUser.ChainId = communityUser.CommunityId.ToString() + communityUser.UserAccountId.ToString();
+                var cuArr = db.CommunityUsers;
+                //var cuIdArr = cuArr.Select((x) => $"{x.CommunityId}{x.UserId}");
+                //string chain = $"{CommunityUsers.CommunityId}{CommunityUsers.UserId}";
 
-                var cuArr = db.CommunityUser;
-                var cuIdArr = cuArr.Select(x => x.ChainId);
-
-                if (!cuIdArr.Contains(communityUser.ChainId))
-                    cuArr.Add(communityUser);
+                //if (!cuIdArr.Contains(chain))
+                    cuArr.Add(CommunityUsers);
 
                 await db.SaveChangesAsync();
             }
         }
 
-        public async void UpdateAsync(CommunityUser newCommunityUser)
+        public async void UpdateAsync(CommunityUsers newGroupUser)
         {
             using (Context db = new Context())
             {
-                CommunityUser? communityUser = db.CommunityUser.FirstOrDefault(x => x.ChainId == newCommunityUser.ChainId);
+                CommunityUsers? CommunityUsers = db.CommunityUsers.FirstOrDefault(x => x.CommunityId == newGroupUser.CommunityId
+                                                                                    && x.UserId == newGroupUser.UserId);
+                                                                                                        
 
-                if (communityUser != null)
-                    communityUser.ChainId = newCommunityUser.ChainId;
+                if (CommunityUsers != null)
+                {
+                    CommunityUsers.CommunityId = newGroupUser.CommunityId;
+                    CommunityUsers.UserId = newGroupUser.UserId;
+                }
+                    
 
                 await db.SaveChangesAsync();
             }
@@ -63,10 +69,10 @@ namespace DataBaseAPI
         {
             using (Context db = new Context())
             {
-                var delete = db.CommunityUser.FirstOrDefault(x => x.ChainId == id.ToString());
+                var delete = db.CommunityUsers.FirstOrDefault(x => $"{x.CommunityId}{x.UserId}".GetHashCode() == id);
 
                 if (delete != null)
-                    db.CommunityUser.Remove(delete);
+                    db.CommunityUsers.Remove(delete);
 
                 await db.SaveChangesAsync();
             }

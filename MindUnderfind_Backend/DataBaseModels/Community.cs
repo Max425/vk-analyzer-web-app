@@ -11,13 +11,14 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class Community
     {
-        public long VkId { get; set; }
+        public int VkId { get; set; }
+        public List<User> Users { get; set; } = new();
+        public List<CommunityUsers> GroupUsers { get; set; } = new();
         public Community() { }
         public Community(long vkId)
         {
-            VkId = vkId;
+            VkId = (int)vkId;
         }
-
         public override string ToString() => $"Community VkId: {VkId}.";
         public override bool Equals(object? obj)
         {

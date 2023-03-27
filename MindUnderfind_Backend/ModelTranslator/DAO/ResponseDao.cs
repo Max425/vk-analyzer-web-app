@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataBaseModels;
 
 namespace ModelTranslator.DAO
 {
@@ -12,14 +13,11 @@ namespace ModelTranslator.DAO
         //надо понять, че вообще и  в каком формате возвращать будем =)
         public int VkId { get; set; }
         public int ComVkId { get; set; } = -1;
-        public List<long> UserArr { get; set; }
-        public List<long> GroupArr { get; set; }
-        public ResponseDao(int vkId)
+        public List<User> UserArr { get; set; } = new();
+        public List<Community> GroupArr { get; set; } = new();
+        public ResponseDao(int vkId, int comVkId = -1)
         {
             VkId = vkId;
-        }
-        public ResponseDao(int vkId, int comVkId) : this(vkId)
-        {
             ComVkId = comVkId;
         }
     }
