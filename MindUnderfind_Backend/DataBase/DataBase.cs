@@ -36,18 +36,18 @@ namespace DataBaseAPI
             }
         }
 
-        public void AddRelationsList(IRepository<CommunityUser> repo, Community one, List<User> many)
+        public void AddRelationsList(IRepository<CommunityUsers> repo, Community one, List<User> many)
         {
             foreach (var el in many)
             {
-                repo.CreateAsync(new CommunityUser(one, el));
+                repo.CreateAsync(new CommunityUsers(one, el));
             }
         }
-        public void AddRelationsList(IRepository<CommunityUser> repo, User one, List<Community> many)
+        public void AddRelationsList(IRepository<CommunityUsers> repo, User one, List<Community> many)
         {
             foreach (var el in many)
             {
-                repo.CreateAsync(new CommunityUser(el, one));
+                repo.CreateAsync(new CommunityUsers(el, one));
             }
         }
 

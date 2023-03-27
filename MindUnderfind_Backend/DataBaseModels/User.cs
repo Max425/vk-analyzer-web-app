@@ -13,12 +13,9 @@ namespace DataBaseModels
     {
         public int VkId { get; set; }
         public bool Rights { get; set; }
-
-        public List<CommunityUser> CommunityUsers { get; set; }
-        public List<Community> Communities { get; set; }
-        public List<User> Users { get; set; }
-        public List<UserFriend> UserFriends { get; set; }
-        //public User() { }
+        public List<Community> Communities { get; set; } = new();
+        public List<CommunityUsers> GroupUsers { get; set; } = new();
+        public User() { }
         public User(long vkId, bool rights = false)
         {
             VkId = (int)vkId;

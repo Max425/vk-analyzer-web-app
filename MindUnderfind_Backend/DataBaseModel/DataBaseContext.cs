@@ -2,13 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using DataBaseModels;
 
+
 namespace DataBaseContext
 {
     public class Context : DbContext
     {
-        public DbSet<UserFriend> UserFriend { get; set; } = null!;
-        public DbSet<Community> Communities { get; set; } = null!;
-        public DbSet<CommunityUser> CommunityUser { get; set; } = null!;
+        public DbSet<UserFriend> UserFriend { get; set; }
+        public DbSet<Community> Communities { get; set; }
+        public DbSet<CommunityUsers> CommunityUsers { get; set; }
         public DbSet<User> Users { get; set; }
 
         //Создавая объект контекста автоматически пробуем подключиться к БД
@@ -31,51 +32,44 @@ namespace DataBaseContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<CommunityUser>().HasNoKey();
-            //modelBuilder.Entity<UserFriend>().HasNoKey();
+            //modelBuilder.Entity<CommunityUsers>().HasNoKey();
+            modelBuilder.Entity<UserFriend>().HasNoKey();
 
-            //modelBuilder.Entity<CommunityUser>().HasKey(x => new { x.CommunityId, x.UserId });
+            modelBuilder.Entity<CommunityUsers>().HasKey(x => new { x.CommunityId, x.UserId });
+            //modelBuilder.Entity<UserFriend>().HasKey(x => new { x.FirstUser, x.SecondUser });
 
-            modelBuilder.Entity<Community>()
-                .HasMany(c => c.Users)
-                .WithMany(s => s.Communities)
-                .UsingEntity<CommunityUser>(
-                j => j
-                    .HasOne(pt => pt.User)
-                    .WithMany(p => p.CommunityUsers)
-                    .HasForeignKey(pt => pt.UserId),
-                                j => j
-                    .HasOne(pt => pt.Community)
-                    .WithMany(t => t.CommunityUsers)
-                    .HasForeignKey(pt => pt.CommunityId),
-                j =>
-                {
-                    //j.Property(pt => pt.Mark).HasDefaultValue(3);
-                    j.HasKey(x => new { x.CommunityId, x.UserId });
-                    j.ToTable("CommunityUser");
-                }
-                );
-
-            /*
-             modelBuilder
-            .Entity<Course>()
-            .HasMany(c => c.Students)
-            .WithMany(s => s.Courses)
-            .UsingEntity<Enrollment>(
-               j => j
-                .HasOne(pt => pt.Student)
-                .WithMany(t => t.Enrollments)
-                .HasForeignKey(pt => pt.StudentId),
+            /*modelBuilder.Entity<User>()
+                .HasMany(c => c.FirstUsers)
+                .WithMany(s => s.SecondUsers)
+                .UsingEntity<UserFriend>(
             j => j
-                .HasOne(pt => pt.Course)
-                .WithMany(p => p.Enrollments)
-                .HasForeignKey(pt => pt.CourseId),
+                .HasOne(pt => pt.FirstUser)
+                .WithMany(p => p.UserFriends)
+                .HasForeignKey(pt => pt.FirstVkId),
+            j => j
+                .HasOne(pt => pt.SecondUser)
+                .WithMany(t => t.UserFriends)
+                .HasForeignKey(pt => pt.SecondVkId),
             j =>
             {
-                j.Property(pt => pt.Mark).HasDefaultValue(3);
-                j.HasKey(t => new { t.CourseId, t.StudentId });
-                j.ToTable("Enrollments");
-            });
+                j.HasKey(x => new { x.FirstUser, x.SecondUser });
+                j.ToTable("UserFriend");
+            }
+            );*/
+
+            /*
+            modelBuilder.Entity<Customer>()
+                    .HasMany(c => c.Products)
+                    .WithMany(p => p.Customers)
+                    .Map(m =>
+                    {
+                        // Ссылка на промежуточную таблицу
+                        m.ToTable("Orders");
+
+                        // Настройка внешних ключей промежуточной таблицы
+                        m.MapLeftKey("CustomerId");
+                        m.MapRightKey("ProductId");
+                    });
              */
         }
     }

@@ -20,7 +20,7 @@ namespace DataBaseAPI
 
         public User Get(int id)
         {
-            User user = new(-1);
+            User user = new();
 
             using (Context db = new Context())
             {

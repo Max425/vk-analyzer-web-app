@@ -11,11 +11,11 @@ namespace DataBaseModels
     public class UserFriend
     {
         public int FirstVkId { get; set; }
-        public User? FirstUser { get; set; }
+        //public User? FirstUser { get; set; }
         public int SecondVkId { get; set; }
-        public User? SecondUser { get; set; }
+        //public User? SecondUser { get; set; }
 
-        //public UserFriend() { }
+        public UserFriend() { }
         public UserFriend(long id1, long id2)
         {
             FirstVkId = (int)id1;

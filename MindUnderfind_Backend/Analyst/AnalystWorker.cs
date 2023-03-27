@@ -76,13 +76,13 @@ namespace Analyst
             DataBase db = new DataBase();
             ApiUser apiUser = new ApiUser();
             ApiCommunity apiCom = new ApiCommunity();
-            ApiCommunityUser apiComUser = new ApiCommunityUser();
+            ApiGroupUser apiComUser = new ApiGroupUser();
 
 
             db.AddList<DataBaseModels.Community>(apiCom, vkDao.UserGroups);
             db.AddList<DataBaseModels.User>(apiUser, vkDao.GroupUsers);
 
-            db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
+            //db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
 
             /*vkDao.UserFri = vk.GetUserFriends(user);
