@@ -27,6 +27,7 @@ namespace DataBaseModels
             return false;
         }
         public override int GetHashCode() => VkId.GetHashCode();
-        public override string ToString() => $"UserAccount {VkId} with VkId {VkId}.";
+        public override string ToString() => $"UserAccount https://vk.com/{VkId}";
+        public string GetUrl() => $"https://vk.com/{VkId}";
     }
 }

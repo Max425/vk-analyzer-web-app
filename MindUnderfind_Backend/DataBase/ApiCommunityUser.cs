@@ -36,10 +36,12 @@ namespace DataBaseAPI
             using (Context db = new Context())
             {
                 var cuArr = db.CommunityUsers;
+                var obj = cuArr.FirstOrDefault(x => x.UserId == CommunityUsers.UserId && x.CommunityId == CommunityUsers.CommunityId);
                 //var cuIdArr = cuArr.Select((x) => $"{x.CommunityId}{x.UserId}");
                 //string chain = $"{CommunityUsers.CommunityId}{CommunityUsers.UserId}";
 
                 //if (!cuIdArr.Contains(chain))
+                if (obj == null || !obj.Equals(CommunityUsers))
                     cuArr.Add(CommunityUsers);
 
                 await db.SaveChangesAsync();

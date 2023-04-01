@@ -55,7 +55,7 @@ namespace Analyst
 
             api.Authorize(new ApiAuthParams
             {
-                AccessToken = "vk1.a.2GtdyaMdSNiUd6Z608JC7QCSwQPtEJZPi3E07GnfzUzdospjgxktQSQ9YXPLeOLNNFa8XLYXsZeomh5gEDio8vm8tOmsBmXjtFY6Tql5UPatjBOLs1VKzrZAnxYqrYPj1i546XDbzfKMvIpg6cOW_RuZ23GU8QYkAT48t1YGJ1203AIRsxQSqfENWvlR4eVV",
+                AccessToken = "vk1.a.gRdscpvs_ixn9evKd3S_lsW5xA-9EI0cOjkgaF-As5eaOsH0hoGVZNvZdmT7ePfLzsRz2t-QCGES5avmsmH8t8XToNHPLshHbRf5o_cprlCAkFbbyV2BC9r8o6a_KbE1Xntz4G-HbQ_Q8zuExxv5gRKYUXzKSG2BXR97J_w5F8nwB44FdjUBomYJ7Xl-qJHx",
                 Settings = Settings.All
             });
             VkApiWorker vk = new(api);
@@ -82,7 +82,7 @@ namespace Analyst
             db.AddList<DataBaseModels.Community>(apiCom, vkDao.UserGroups);
             db.AddList<DataBaseModels.User>(apiUser, vkDao.GroupUsers);
 
-            //db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
+            db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
 
             /*vkDao.UserFri = vk.GetUserFriends(user);

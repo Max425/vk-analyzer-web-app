@@ -19,7 +19,8 @@ namespace DataBaseModels
         {
             VkId = (int)vkId;
         }
-        public override string ToString() => $"Community VkId: {VkId}.";
+        public override string ToString() => $"Community VkId: https://vk.com/public{VkId}";
+        public string GetUrl() => $"https://vk.com/public{VkId}";
         public override bool Equals(object? obj)
         {
             if (obj is Community com) return VkId == com.VkId;
