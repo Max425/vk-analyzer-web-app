@@ -33,22 +33,22 @@ namespace ModelTranslator.DTO
             if (UserGroups?.Count != 0)
                 foreach(var el in UserGroups)
                 {
-                    dao.UserGroups?.Add(new DataBaseModels.Community(el.Id));
+                    dao.UserGroups?.Add(new DataBaseModels.Community((int)el.Id));
                 }
             if (UserFriFri?.Count != 0)
                 foreach (var el in UserFriFri)
                 {
-                    dao.UserFriFri?.Add(new DataBaseModels.User(el.Id));
+                    dao.UserFriFri?.Add(new DataBaseModels.User((int)el.Id));
                 }
             if (UserFri?.Count != 0)
                 foreach (var el in UserFri)
                 {
-                    dao.UserFri?.Add(new DataBaseModels.User(el.Id));
+                    dao.UserFri?.Add(new DataBaseModels.User((int)el.Id));
                 }
             if (GroupUsers?.Count != 0)
                 foreach (var el in GroupUsers)
                 {
-                    dao.GroupUsers?.Add(new DataBaseModels.User(el.Id));
+                    dao.GroupUsers?.Add(new DataBaseModels.User((int)el.Id));
                 }
 
 

@@ -15,6 +15,7 @@ namespace ModelTranslator.DAO
         public int ComVkId { get; set; } = -1;
         public List<User> UserArr { get; set; } = new();
         public List<Community> GroupArr { get; set; } = new();
+        public List<CommunityUsers> CommunityUser { get; set; } = new();
         public ResponseDao(int vkId, int comVkId = -1)
         {
             VkId = vkId;

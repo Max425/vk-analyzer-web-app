@@ -23,7 +23,15 @@
     <h2>USERS</h2>
     @foreach (var user in Model.UsersArr)
     {
-        <a href="@user.GetUrl()">@user</a><br>
+        <a href="@user.GetUrl()">@user</a>
+        <br>
+    }
+
+    <h2>COMMUNITY-USERS</h2>
+    @foreach (var cm in Model.CommunityUser)
+    {
+        <a>@cm</a>
+        <br>
     }
 </body>
 </html>

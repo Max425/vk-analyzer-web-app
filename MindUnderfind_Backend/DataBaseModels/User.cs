@@ -11,14 +11,13 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class User
     {
-        public int VkId { get; set; }
+        public long VkId { get; set; }
         public bool Rights { get; set; }
-        public List<Community> Communities { get; set; } = new();
-        public List<CommunityUsers> GroupUsers { get; set; } = new();
-        public User() { }
+        public List<Community> Communities { get; set; }
+        public List<User>? Friends { get; set; }
         public User(long vkId, bool rights = false)
         {
-            VkId = (int)vkId;
+            VkId = vkId;
             Rights = rights;
         }
         public override bool Equals(object? obj)
@@ -27,7 +26,7 @@ namespace DataBaseModels
             return false;
         }
         public override int GetHashCode() => VkId.GetHashCode();
-        public override string ToString() => $"UserAccount https://vk.com/{VkId}";
-        public string GetUrl() => $"https://vk.com/{VkId}";
+        public override string ToString() => $"UserAccount https://vk.com/id{VkId}";
+        public string GetUrl() => $"https://vk.com/id{VkId}";
     }
 }

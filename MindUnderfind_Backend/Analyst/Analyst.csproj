@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Config\Config.csproj" />
     <ProjectReference Include="..\DataBase\DataBaseAPI.csproj" />
     <ProjectReference Include="..\VK_API\VkApi.csproj" />
   </ItemGroup>

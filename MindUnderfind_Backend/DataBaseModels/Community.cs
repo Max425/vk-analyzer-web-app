@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -11,13 +12,18 @@ namespace DataBaseModels
     [PrimaryKey("VkId")]
     public class Community
     {
-        public int VkId { get; set; }
-        public List<User> Users { get; set; } = new();
-        public List<CommunityUsers> GroupUsers { get; set; } = new();
-        public Community() { }
+        public long VkId { get; set; }
+        public DateTime LastUpdate { get; set; }
+
+        public List<User> Users { get; set; }
         public Community(long vkId)
         {
-            VkId = (int)vkId;
+            VkId = vkId;
+            LastUpdate = DateTime.UtcNow;
+        }
+        public Community(long vkId, DateTime dateTime) : this(vkId)
+        {
+            LastUpdate = dateTime;
         }
         public override string ToString() => $"Community VkId: https://vk.com/public{VkId}";
         public string GetUrl() => $"https://vk.com/public{VkId}";

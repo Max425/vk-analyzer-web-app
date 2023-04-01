@@ -10,20 +10,17 @@ namespace DataBaseModels
 {
     public class UserFriend
     {
-        public int FirstVkId { get; set; }
+        public long FirstVkId { get; set; }
         //public User? FirstUser { get; set; }
-        public int SecondVkId { get; set; }
+        public long SecondVkId { get; set; }
         //public User? SecondUser { get; set; }
-
-        public UserFriend() { }
-        public UserFriend(long id1, long id2)
+        public List<User>? Friends { get; set; }
+        public UserFriend(long firstVkId, long secondVkId)
         {
-            FirstVkId = (int)id1;
-            SecondVkId = (int)id2;
+            FirstVkId = firstVkId;
+            SecondVkId = secondVkId;
         }
-
         public UserFriend(User u1, User u2) : this(u1.VkId, u2.VkId) { }
-
         public override bool Equals(object? obj)
         {
             if (obj is UserFriend uf) return FirstVkId == uf.FirstVkId && SecondVkId == uf.SecondVkId;
