@@ -7,17 +7,17 @@ using ModelTranslator.DAO;
 using DataBaseAPI;
 using DataBaseModels;
 using ModelTranslator.DTO;
+using Config;
 
 namespace Analyst
 {
     public class AnalystWorker
     {
-        public AnalystWorker () { }
         public ResponseDao GetData (RequestDao request)
         {
             bool isNeedRequestToVkApi = false;
             DataDao BbResult = CheckDb(request, out isNeedRequestToVkApi);
-            //доступ к бд пока не сделан - нужна еще одна прослойка
+            // доступ к бд пока не сделан - нужна еще одна прослойка
             // Рома, не забудь
 
             isNeedRequestToVkApi = true;
@@ -32,6 +32,10 @@ namespace Analyst
             ResponseDao result = new ResponseDao(request.VkId);
             result.UserArr.AddRange(VkResult.GroupUsers);
             result.GroupArr.AddRange(VkResult.UserGroups);
+
+            foreach()
+
+            result.CommunityUser.AddRange(VkResult);
 
             return result;
         }
@@ -55,9 +59,9 @@ namespace Analyst
 
             api.Authorize(new ApiAuthParams
             {
-                AccessToken = "vk1.a.2GtdyaMdSNiUd6Z608JC7QCSwQPtEJZPi3E07GnfzUzdospjgxktQSQ9YXPLeOLNNFa8XLYXsZeomh5gEDio8vm8tOmsBmXjtFY6Tql5UPatjBOLs1VKzrZAnxYqrYPj1i546XDbzfKMvIpg6cOW_RuZ23GU8QYkAT48t1YGJ1203AIRsxQSqfENWvlR4eVV",
+                AccessToken = ConfigData.VkTokenForAPI,
                 Settings = Settings.All
-            });
+            }) ;
             VkApiWorker vk = new(api);
             VkNet.Model.User user = new VkNet.Model.User();
             user.Id = request.VkId;
@@ -73,16 +77,16 @@ namespace Analyst
             VkDao vkDao = vkDto.ToVkDao();
 
             // Send to DB
-            DataBase db = new DataBase();
-            ApiUser apiUser = new ApiUser();
-            ApiCommunity apiCom = new ApiCommunity();
-            ApiGroupUser apiComUser = new ApiGroupUser();
+            DataBase db = new();
+            UserRepository apiUser = new(new DataBaseContext.Context());
+            CommunityRepository apiCom = new(new DataBaseContext.Context());
+            CommunityUserRepository apiComUser = new(new DataBaseContext.Context());
 
 
             db.AddList<DataBaseModels.Community>(apiCom, vkDao.UserGroups);
             db.AddList<DataBaseModels.User>(apiUser, vkDao.GroupUsers);
 
-            //db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
+            db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
 
             /*vkDao.UserFri = vk.GetUserFriends(user);

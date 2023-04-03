@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataBaseAPI
 {
-    public interface IRepository<T> where T : class
+    public interface IRepositoryRelationship<T> where T : class
     {
         /// <summary>
         /// Получение всех объектов данного репазитория
@@ -18,7 +18,7 @@ namespace DataBaseAPI
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T? Get(int id);
+        T? Get(int idFirst, int idSecond);
         /// <summary>
         /// создание объекта
         /// </summary>
@@ -33,7 +33,7 @@ namespace DataBaseAPI
         /// удаление объекта по ID
         /// </summary>
         /// <param name="id"></param>
-        Task DeleteAsync(int id);
+        Task DeleteAsync(T item);
         
         Task SaveAsync();  // сохранение изменений
     }

@@ -17,13 +17,21 @@
     <h2>GROUPS</h2>
     @foreach (var group in Model.GroupsArr)
     {
-        <h4>@group</h4>
+        <a href = "@group.GetUrl()">@group</a><br>
     }
 
     <h2>USERS</h2>
     @foreach (var user in Model.UsersArr)
     {
-            <h4>@user</h4>
+        <a href="@user.GetUrl()">@user</a>
+        <br>
+    }
+
+    <h2>COMMUNITY-USERS</h2>
+    @foreach (var cm in Model.CommunityUser)
+    {
+        <a>@cm</a>
+        <br>
     }
 </body>
 </html>

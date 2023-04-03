@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Config\Config.csproj" />
     <ProjectReference Include="..\DataBaseModels\DataBaseModels.csproj" />
   </ItemGroup>
 
