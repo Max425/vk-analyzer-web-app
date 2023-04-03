@@ -34,16 +34,16 @@ public class VkApiWorker
     }
 
     public List<User>? GetUserFriends(User user)
-     {
-         if (user.IsClosed == true)
-             return null;
-         
-         return _api.Friends.Get(new FriendsGetParams
-         {
-             UserId = user.Id,
-         }).ToList();
-     }
-    
+    {
+        if (user.IsClosed == true)
+            return null;
+
+        return _api.Friends.Get(new FriendsGetParams
+        {
+            UserId = user.Id,
+        }).ToList();
+    }
+
     public List<User> GetUserFriendsAndThereFriends(User user)
     {
         var friends = _api.Friends.Get(new FriendsGetParams
