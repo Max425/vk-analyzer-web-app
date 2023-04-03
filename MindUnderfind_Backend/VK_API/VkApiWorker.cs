@@ -1,3 +1,8 @@
+using VkNet;
+using VkNet.Enums.Filters;
+using VkNet.Model;
+using VkNet.Model.RequestParams;
+
 namespace VkApiModul;
 
 public class VkApiWorker
