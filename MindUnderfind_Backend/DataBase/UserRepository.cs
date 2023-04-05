@@ -12,7 +12,7 @@ namespace DataBaseAPI
         {
             try
             {
-                await new Task(new Action(db.Users.ToList()));
+                await Task.Run(() => db.Users.ToList());
             }
             catch
             {
@@ -26,7 +26,7 @@ namespace DataBaseAPI
         {
             try
             {
-                await new Task(new Actions<User?>(db.Users.FirstOrDefault(x => x.VkId == id)));
+                await Task.Run(() => db.Users.FirstOrDefault(x => x.VkId == id));
             }
             catch
             {

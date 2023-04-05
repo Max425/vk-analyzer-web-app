@@ -13,7 +13,7 @@ namespace DataBaseAPI
         {
             try
             {
-                await new Task(new Action<List<CommunityUsers>>(db.CommunityUsers.ToList()));
+                await Task.Run(() => db.CommunityUsers.ToList());
             }
             catch
             {
@@ -28,8 +28,8 @@ namespace DataBaseAPI
         {
             try
             {
-                await new Task(new Action(db.CommunityUsers.FirstOrDefault(x => x.CommunityId == idFirst
-                                                            && x.UserId == idSecond)));
+                await Task.Run(() => db.CommunityUsers.FirstOrDefault(x => x.CommunityId == idFirst
+                                                                            && x.UserId == idSecond));
             }
             catch
             {

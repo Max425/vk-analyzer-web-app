@@ -28,6 +28,6 @@ namespace EmptyMVC.Views.Home
             GroupsArr = groupsArr;
             CommunityUser = communityUsers;
         }
-        public AnswerModel(ProcessDto dto, ResponseDao dao) : this(dto.VkId, dto.ProcessType, dto.ComVkId, dao.UserArr, dao.GroupArr, dao.CommunityUser) { }
+        public AnswerModel(RequestDto dto, ResponseDao dao) : this(dto.VkId, dto.ProcessType, dto.ComVkId, dao.UserArr, dao.GroupArr, dao.CommunityUser) { }
     }
 }

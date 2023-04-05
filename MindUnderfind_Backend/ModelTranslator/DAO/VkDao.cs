@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using DataBaseModels;
 
 namespace ModelTranslator.DAO
 {
     public class VkDao
     {
-        public List<User>? UserFriFri { get; set; } = new();
-        public List<User>? UserFri { get; set; } = new();
-        public List<Community>? UserGroups { get; set; } = new();
-        public List<User>? GroupUsers { get; set; } = new();
-        public VkDao() { }
-        public VkDao(List<User>? userFriFri,
-                        List<User>? userFri,
-                        List<Community>? userGroups,
-                        List<User>? groupUsers)
-        {
-            UserFriFri = userFriFri;
-            UserFri = userFri;
-            UserGroups = userGroups;
-            GroupUsers = groupUsers;
-        }
+        public long UserVkId { get; set; }
+        public readonly string ProcessType;
+        public VkDao(string str) => ProcessType = str;
     }
+    public class VkCommunityDao : VkDao
+    {
+        public IEnumerable<VkGroupDao> VkGroupDaos { get; set; }
+        public IEnumerable<VkUserDao> VkGroupUsersDaos { get; set; }
+        public IEnumerable<VkGroupDao> VkGroupUsersGroups { get; set; }
+
+        public VkCommunityDao() : base("Community") { }
+    }
+    public class VkFriendDao : VkDao
+    {
+        public IEnumerable<VkUserDao> VkFriendsDaos { get; set; }
+        public IEnumerable<VkGroupDao> VkFriendGroups { get; set; }
+
+        public VkFriendDao() : base("Friends") { }
+    }
+    public class VkFriendsFriendDao : VkDao
+    {
+        public IEnumerable<VkUserDao> VkFriendsDaos { get; set; }
+        public IEnumerable<VkUserDao> VkFriendFriendsDaos { get; set; }
+        public IEnumerable<VkGroupDao> VkFriendFriendGroups { get; set; }
+
+        public VkFriendsFriendDao() : base("FriendsOfFriends") { }
+    }
+
 }

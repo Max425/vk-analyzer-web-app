@@ -58,7 +58,7 @@ namespace DataBaseAPI
         {
             try
             {
-                var comm = db.Communities.FirstOrDefault(x => x.VkId == community.VkId);
+                var comm = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == community.VkId));
 
                 if (comm == null)
                     throw new Exception($"community with vk id = {community.VkId} not exists");
@@ -76,7 +76,7 @@ namespace DataBaseAPI
         {
             try
             {
-                var delete = db.Communities.FirstOrDefault(x => x.VkId == id);
+                var delete = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == id));
 
                 if (delete == null)
                     throw new Exception($"community with vk id = {id} already not exists =)");
