@@ -33,7 +33,7 @@ namespace Analyst
             result.UserArr.AddRange(VkResult.GroupUsers);
             result.GroupArr.AddRange(VkResult.UserGroups);
 
-            foreach()
+            
 
             result.CommunityUser.AddRange(VkResult);
 
