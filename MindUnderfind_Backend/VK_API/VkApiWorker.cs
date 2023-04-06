@@ -1,14 +1,13 @@
-using VkNet;
 using VkNet.Enums.Filters;
 using VkNet.Model;
 using VkNet.Model.RequestParams;
 
-namespace VkApiModul;
+namespace VkApi;
 
 public class VkApiWorker
 {
-    public VkApiWorker(VkApi api) => _api = api;
-    private readonly VkApi _api;
+    public VkApiWorker(VkNet.VkApi api) => _api = api;
+    private readonly VkNet.VkApi _api;
 
     public List<Group>? GetUserGroups(User user)
     {

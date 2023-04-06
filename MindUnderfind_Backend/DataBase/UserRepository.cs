@@ -2,99 +2,98 @@
 using DataBaseModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataBaseAPI
+namespace DataBaseAPI;
+
+public class UserRepository : IRepository<User>
 {
-    public class UserRepository : IRepository<User>
+    private Context Db { get; }
+    public UserRepository(Context newDb) { Db = newDb; }
+    public async Task<IEnumerable<User>?> GetList()
     {
-        private Context db { get; }
-        public UserRepository(Context newDb) { db = newDb; }
-        public async Task<IEnumerable<User>?> GetList()
+        try
         {
-            try
-            {
-                await Task.Run(() => db.Users.ToList());
-            }
-            catch
-            {
-                Console.WriteLine($"Не удалось получить список Users.");
-            }
-
-            return null;
+            await Task.Run(() => Db.Users.ToList());
+        }
+        catch
+        {
+            Console.WriteLine($"Не удалось получить список Users.");
         }
 
-        public async Task<User?> Get(int id)
-        {
-            try
-            {
-                await Task.Run(() => db.Users.FirstOrDefault(x => x.VkId == id));
-            }
-            catch
-            {
-                Console.WriteLine($"Не удалось получить Community по VkId: {id}.");
-            }
+        return null;
+    }
 
-            return null;
+    public async Task<User?> Get(int id)
+    {
+        try
+        {
+            await Task.Run(() => Db.Users.FirstOrDefault(x => x.VkId == id));
+        }
+        catch
+        {
+            Console.WriteLine($"Не удалось получить Community по VkId: {id}.");
         }
 
-        public async Task CreateAsync(User user)
+        return null;
+    }
+
+    public async Task CreateAsync(User user)
+    {
+        try
         {
-            try
-            {
-                var userExists = await db.Users.AnyAsync(c => c.VkId == user.VkId);
+            var userExists = await Db.Users.AnyAsync(c => c.VkId == user.VkId);
 
-                if (userExists)
-                    throw new Exception($"user with vk id = {user.VkId} already exists");
+            if (userExists)
+                throw new Exception($"user with vk id = {user.VkId} already exists");
 
-                await db.Users.AddAsync(user);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            await db.SaveChangesAsync(); //?
+            await Db.Users.AddAsync(user);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
 
-        public async Task UpdateAsync(User newUser)
+        await Db.SaveChangesAsync(); //?
+    }
+
+    public async Task UpdateAsync(User newUser)
+    {
+        try
         {
-            try
-            {
-                var user = db.Users.FirstOrDefault(x => x.VkId == newUser.VkId);
+            var user = Db.Users.FirstOrDefault(x => x.VkId == newUser.VkId);
 
-                if (user == null)
-                    throw new Exception($"user with vk id = {newUser.VkId} not exists");
+            if (user == null)
+                throw new Exception($"user with vk id = {newUser.VkId} not exists");
 
-                user.VkId = newUser.VkId;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            await db.SaveChangesAsync();
+            user.VkId = newUser.VkId;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
 
-        public async Task DeleteAsync(int id)
+        await Db.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        try
         {
-            try
-            {
-                var delete = db.Users.FirstOrDefault(x => x.VkId == id);
+            var delete = Db.Users.FirstOrDefault(x => x.VkId == id);
 
-                if (delete == null)
-                    throw new Exception($"user with vk id = {id} already not exists =)");
+            if (delete == null)
+                throw new Exception($"user with vk id = {id} already not exists =)");
 
-                db.Users.Remove(delete);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            await db.SaveChangesAsync();
+            Db.Users.Remove(delete);
         }
-        public async Task SaveAsync()
+        catch (Exception ex)
         {
-            await db.SaveChangesAsync();
+            Console.WriteLine(ex.Message);
         }
+
+        await Db.SaveChangesAsync();
+    }
+    public async Task SaveAsync()
+    {
+        await Db.SaveChangesAsync();
     }
 }

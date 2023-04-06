@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+﻿namespace DebugViewer;
 
-namespace DebugViewer
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    private static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            Console.WriteLine("Start Console Worker!");
-            //ConsoleWorker worker = new ConsoleWorker();
-            //worker.InitDB();
-            //worker.StartWork();
+        Console.WriteLine("Start Console Worker!");
+        //ConsoleWorker worker = new ConsoleWorker();
+        //worker.InitDB();
+        //worker.StartWork();
 
-        }
     }
 }

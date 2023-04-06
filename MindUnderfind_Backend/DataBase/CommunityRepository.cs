@@ -1,97 +1,95 @@
 ﻿using DataBaseContext;
 using DataBaseModels;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
-namespace DataBaseAPI
+namespace DataBaseAPI;
+
+public class CommunityRepository : IRepository<Community>
 {
-    public class CommunityRepository : IRepository<Community>
+    private Context Db { get; }
+    public CommunityRepository(Context newDb) { Db = newDb; }
+    public async Task<IEnumerable<Community>?> GetList()
     {
-        private Context db { get; }
-        public CommunityRepository(Context newDb) { db = newDb; }
-        public async Task<IEnumerable<Community>?> GetList()
+        try
         {
-            try
-            {
-                await Task.Run(() => db.Communities.ToList());
-            }
-            catch
-            {
-                Console.WriteLine($"Не удалось получить список Community.");
-            }
-
-            return null;
+            await Task.Run(() => Db.Communities.ToList());
+        }
+        catch
+        {
+            Console.WriteLine($"Не удалось получить список Community.");
         }
 
-        public async Task<Community?> Get(int id)
+        return null;
+    }
+
+    public async Task<Community?> Get(int id)
+    {
+        try
         {
-            try
-            {
-                await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == id));
-            }
-            catch
-            {
-                Console.WriteLine($"Не удалось получить Community по VkId: {id}.");
-            }
+            await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
+        }
+        catch
+        {
+            Console.WriteLine($"Не удалось получить Community по VkId: {id}.");
+        }
             
-            return null;
-        }
+        return null;
+    }
 
-        public async Task CreateAsync(Community community)
+    public async Task CreateAsync(Community community)
+    {
+        try
         {
-            try
-            {
-                var communityExists = await db.Communities.AnyAsync(c => c.VkId == community.VkId);
+            var communityExists = await Db.Communities.AnyAsync(c => c.VkId == community.VkId);
 
-                if (communityExists)
-                    throw new Exception($"community with vk id = {community.VkId} already exists");
+            if (communityExists)
+                throw new Exception($"community with vk id = {community.VkId} already exists");
 
-                await db.Communities.AddAsync(community);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            await Db.Communities.AddAsync(community);
         }
-
-        public async Task UpdateAsync(Community community)
+        catch (Exception ex)
         {
-            try
-            {
-                var comm = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == community.VkId));
-
-                if (comm == null)
-                    throw new Exception($"community with vk id = {community.VkId} not exists");
-
-                comm.VkId = community.VkId;
-                comm.LastUpdate = community.LastUpdate;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            Console.WriteLine(ex.Message);
         }
+    }
 
-        public async Task DeleteAsync(int id)
+    public async Task UpdateAsync(Community community)
+    {
+        try
         {
-            try
-            {
-                var delete = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == id));
+            var comm = await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == community.VkId));
 
-                if (delete == null)
-                    throw new Exception($"community with vk id = {id} already not exists =)");
+            if (comm == null)
+                throw new Exception($"community with vk id = {community.VkId} not exists");
 
-                db.Communities.Remove(delete);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            comm.VkId = community.VkId;
+            comm.LastUpdate = community.LastUpdate;
         }
-
-        public async Task SaveAsync()
+        catch(Exception ex)
         {
-            await db.SaveChangesAsync();
+            Console.WriteLine(ex.Message);
         }
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        try
+        {
+            var delete = await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
+
+            if (delete == null)
+                throw new Exception($"community with vk id = {id} already not exists =)");
+
+            Db.Communities.Remove(delete);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public async Task SaveAsync()
+    {
+        await Db.SaveChangesAsync();
     }
 }

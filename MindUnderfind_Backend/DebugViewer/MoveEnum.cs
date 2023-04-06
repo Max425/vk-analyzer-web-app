@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿namespace DebugViewer;
 
-namespace DebugViewer
+public enum Move
 {
-    public enum Move
-    {
-        None,
-        Add,
-        Change,
-        Delete,
-        Get,
-        GetList,
-        Exit,
-    }
+    None,
+    Add,
+    Change,
+    Delete,
+    Get,
+    GetList,
+    Exit,
 }
