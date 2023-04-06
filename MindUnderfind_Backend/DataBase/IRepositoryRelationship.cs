@@ -12,13 +12,13 @@ namespace DataBaseAPI
         /// Получение всех объектов данного репазитория
         /// </summary>
         /// <returns>IEnumerable<T></returns>
-        IEnumerable<T>? GetList();
+        Task<IEnumerable<T>?> GetList();
         /// <summary>
         /// Получение одного объекта по ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T? Get(int idFirst, int idSecond);
+        Task<T?> Get(int idFirst, int idSecond);
         /// <summary>
         /// создание объекта
         /// </summary>

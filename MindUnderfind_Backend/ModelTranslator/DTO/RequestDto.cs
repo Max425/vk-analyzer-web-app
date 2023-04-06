@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModelTranslator.DTO
 {
-    public class ProcessDto
+    public class RequestDto
     {
         public int VkId { get; set; } = -1;
         public Process ProcessType { get; set; } = Process.None;

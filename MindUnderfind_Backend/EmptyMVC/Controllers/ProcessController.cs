@@ -19,13 +19,13 @@ namespace EmptyMVC.Controllers
 
         [ActionName("Request")]
         [HttpPost]
-        public void ProcessRequest(ProcessDto process)
+        public void ProcessRequest(RequestDto process)
         {
             //return $"{process.VkId}: {process.ProcessType}: {process.ComVkId}";
             Response.Redirect($"/Process/Answer?VkId={process.VkId}&ProcessType={process.ProcessType}&ComVkId={process.ComVkId}");
         }
 
-        public IActionResult Answer (ProcessDto processDto)
+        public IActionResult Answer (RequestDto processDto)
         {
             AnalystWorker analyst = new AnalystWorker();
             ResponseDao responseDto = analyst.GetData(processDto.ToRequestDao());

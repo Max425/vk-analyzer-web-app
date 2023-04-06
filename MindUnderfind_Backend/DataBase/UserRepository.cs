@@ -8,11 +8,11 @@ namespace DataBaseAPI
     {
         private Context db { get; }
         public UserRepository(Context newDb) { db = newDb; }
-        public IEnumerable<User>? GetList()
+        public async Task<IEnumerable<User>?> GetList()
         {
             try
             {
-                return db.Users.ToList();
+                await Task.Run(() => db.Users.ToList());
             }
             catch
             {
@@ -22,11 +22,11 @@ namespace DataBaseAPI
             return null;
         }
 
-        public User? Get(int id)
+        public async Task<User?> Get(int id)
         {
             try
             {
-                return db.Users.FirstOrDefault(x => x.VkId == id);
+                await Task.Run(() => db.Users.FirstOrDefault(x => x.VkId == id));
             }
             catch
             {

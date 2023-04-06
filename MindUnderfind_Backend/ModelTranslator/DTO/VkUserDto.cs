@@ -7,29 +7,35 @@ using VkNet;
 using VkNet.Model;
 using ModelTranslator.DAO;
 
+using VkUser = VkNet.Model.User;
+using VkGroup = VkNet.Model.Group;
+
 namespace ModelTranslator.DTO
 {
-    public class VkDto
+    public class VkUserDto
     {
-        public List<User>? UserFriFri { get; set; } = new();
-        public List<User>? UserFri { get; set; } = new();
-        public List<Group>? UserGroups { get; set; } = new();
-        public List<User>? GroupUsers { get; set; } = new();
-        public VkDto() { }
-        public VkDto(List<User>? userFriFri,
-                        List<User>? userFri,
-                        List<Group>? userGroups,
-                        List<User>? groupUsers)
+        public long VkId { get; set; }
+        public List<VkUser>? UserFriFri { get; set; } = new();
+        public List<VkUser>? UserFri { get; set; } = new();
+        public List<VkGroup>? UserGroups { get; set; } = new();
+        public VkUserDto() { }
+        public VkUserDto(long vkId,
+                        List<VkUser>? userFriFri,
+                        List<VkUser>? userFri,
+                        List<VkGroup>? userGroups)
         {
+            VkId = vkId;
             UserFriFri = userFriFri;
             UserFri = userFri;
             UserGroups = userGroups;
-            GroupUsers = groupUsers;
         }
 
-        public VkDao ToVkDao()
+        public VkUserDao ToVkUserDao()
         {
-            var dao = new VkDao();
+            var dao = new VkUserDao();
+
+            dao.VkId = VkId;
+
             if (UserGroups?.Count != 0)
                 foreach(var el in UserGroups)
                 {
@@ -45,12 +51,6 @@ namespace ModelTranslator.DTO
                 {
                     dao.UserFri?.Add(new DataBaseModels.User((int)el.Id));
                 }
-            if (GroupUsers?.Count != 0)
-                foreach (var el in GroupUsers)
-                {
-                    dao.GroupUsers?.Add(new DataBaseModels.User((int)el.Id));
-                }
-
 
             return dao;
         }

@@ -14,27 +14,21 @@ namespace DataBaseAPI
         public void AddList<T> (IRepository<T> repo, List<T> val) where T: class
         {
             if (val == null)
-                return;
+                throw new ArgumentNullException(nameof(val));
 
-            var list = repo.GetList();
-            var set = list.Union<T>(val);
-            var general = list.Intersect<T>(val);
+            IEnumerable<T>? list = repo.GetList().Result;
 
-            var newEl = set.Except<T>(general);
+            if (list == null)
+                throw new ArgumentNullException(nameof(val));
+
+            IEnumerable<T> set = list.Union<T>(val);
+            IEnumerable<T> general = list.Intersect<T>(val);
+
+            IEnumerable<T> newEl = set.Except<T>(general);
 
             foreach(var el in newEl)
             {
                 repo.CreateAsync(el);
-            }
-
-            repo.SaveAsync();
-        }
-
-        public void AddRelationsList(IRepositoryRelationship<UserFriend> repo, User one, List<User> many)
-        {
-            foreach (var el in many)
-            {
-                repo.CreateAsync(new UserFriend(one, el));
             }
 
             repo.SaveAsync();

@@ -8,10 +8,11 @@ namespace ModelTranslator.DAO
 {
     public class DataDao
     {
-        public Dictionary<int, int> RelationshipDict { get; set; }
-        public List<int> ComArr { get; set; }
-        public List<int> UserArr { get; set; }
-        public DataDao(List<int> userArr, List<int> comArr, Dictionary<int, int> raltionship)
+        public Dictionary<long, long> RelationshipDict { get; set; }
+        public List<long> ComArr { get; set; }
+        public List<long> UserArr { get; set; }
+        public DataDao() { }
+        public DataDao(List<long> userArr, List<long> comArr, Dictionary<long, long> raltionship)
         {
             RelationshipDict = raltionship;
             ComArr = comArr;

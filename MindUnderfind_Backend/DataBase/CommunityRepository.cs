@@ -9,11 +9,11 @@ namespace DataBaseAPI
     {
         private Context db { get; }
         public CommunityRepository(Context newDb) { db = newDb; }
-        public IEnumerable<Community>? GetList()
+        public async Task<IEnumerable<Community>?> GetList()
         {
             try
             {
-                return db.Communities.ToList();
+                await Task.Run(() => db.Communities.ToList());
             }
             catch
             {
@@ -23,11 +23,11 @@ namespace DataBaseAPI
             return null;
         }
 
-        public Community? Get(int id)
+        public async Task<Community?> Get(int id)
         {
             try
             {
-                return db.Communities.FirstOrDefault(x => x.VkId == id);
+                await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == id));
             }
             catch
             {
@@ -58,7 +58,7 @@ namespace DataBaseAPI
         {
             try
             {
-                var comm = db.Communities.FirstOrDefault(x => x.VkId == community.VkId);
+                var comm = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == community.VkId));
 
                 if (comm == null)
                     throw new Exception($"community with vk id = {community.VkId} not exists");
@@ -76,7 +76,7 @@ namespace DataBaseAPI
         {
             try
             {
-                var delete = db.Communities.FirstOrDefault(x => x.VkId == id);
+                var delete = await Task.Run(() => db.Communities.FirstOrDefault(x => x.VkId == id));
 
                 if (delete == null)
                     throw new Exception($"community with vk id = {id} already not exists =)");

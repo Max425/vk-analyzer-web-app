@@ -9,11 +9,11 @@ namespace DataBaseAPI
     {
         private Context db { get; }
         public CommunityUserRepository(Context newDb) { db = newDb; }
-        public IEnumerable<CommunityUsers>? GetList()
+        public async Task<IEnumerable<CommunityUsers>?> GetList()
         {
             try
             {
-                return db.CommunityUsers.ToList();
+                await Task.Run(() => db.CommunityUsers.ToList());
             }
             catch
             {
@@ -24,12 +24,12 @@ namespace DataBaseAPI
 
         }
 
-        public CommunityUsers? Get(int idFirst, int idSecond)
+        public async Task<CommunityUsers?> Get(int idFirst, int idSecond)
         {
             try
             {
-                return db.CommunityUsers.FirstOrDefault(x => x.CommunityId == idFirst
-                                                            && x.UserId == idSecond);
+                await Task.Run(() => db.CommunityUsers.FirstOrDefault(x => x.CommunityId == idFirst
+                                                                            && x.UserId == idSecond));
             }
             catch
             {
