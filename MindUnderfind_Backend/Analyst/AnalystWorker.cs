@@ -11,7 +11,7 @@ namespace Analyst;
 
 public class AnalystWorker
 {
-    public ResponseDao GetData (RequestDao request)
+    public ResponseDao GetData(RequestDao request)
     {
         var bbResult = CheckDb(request, out var isNeedRequestToVkApi);
         // доступ к бд пока не сделан - нужна еще одна прослойка
@@ -53,7 +53,7 @@ public class AnalystWorker
         return result;
     }
 
-    public DataDao CheckDb(RequestDao requestDao, out bool needRequest)
+    private DataDao CheckDb(RequestDao requestDao, out bool needRequest)
     {
         needRequest = false;
 
@@ -63,10 +63,10 @@ public class AnalystWorker
         return new DataDao();
     }
 
-    public VkDao RequestVkApi(RequestDao request)
+    private VkDao RequestVkApi(RequestDao request)
     {
         // Create result obj
-        VkUserDto vkDto = new VkUserDto();
+        var vkDto = new VkUserDto();
 
         // Autorize in VK
         var api = new VkNet.VkApi();
@@ -76,9 +76,11 @@ public class AnalystWorker
             AccessToken = ConfigData.VkTokenForApi,
             Settings = Settings.All
         }) ;
-        VkApiWorker vk = new(api);
-        VkNet.Model.User user = new VkNet.Model.User();
-        user.Id = request.VkId;
+        var vk = new VkApiWorker(api);
+        var user = new User
+        {
+            Id = request.VkId
+        };
 
         // Get Data
         /*
