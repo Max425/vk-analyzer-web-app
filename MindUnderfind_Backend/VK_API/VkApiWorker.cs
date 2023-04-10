@@ -14,13 +14,25 @@ public class VkApiWorker
         if (user.IsClosed == true)
             return null;
 
-        return _api.Groups.Get(new GroupsGetParams
+        List<Group>? tmp = null;
+
+        try
         {
-            UserId = user.Id,
-            Extended = true,
-            Filter = GroupsFilters.Publics,
-            Fields = GroupsFields.All
-        }).ToList();
+            tmp = _api.Groups.Get(new GroupsGetParams
+            {
+                UserId = user.Id,
+                Extended = true,
+                Filter = GroupsFilters.Publics,
+                Fields = GroupsFields.All
+            }).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
+
+        return tmp;
     }
     // Метод нужно доработать, т.к. возвращает только 500-600 участников сообщества
     public List<User> GetUsersByGroupId(string groupId)

@@ -2,25 +2,26 @@
 
 using VkUser = VkNet.Model.User;
 using VkGroup = VkNet.Model.Group;
+using DataBaseModels;
 
 namespace ModelTranslator.DTO;
 
 public class VkUserDto
 {
-    private long VkId { get; set; }
-    private List<VkUser>? UserFriFri { get; set; } = new();
-    private List<VkUser>? UserFri { get; set; } = new();
-    private List<VkGroup>? UserGroups { get; set; } = new();
-    public VkUserDto() { }
+    public long VkId { get; set; }
+    public List<VkUser>? UserFriFri { get; set; } = new();
+    public List<VkUser>? UserFri { get; set; } = new();
+    public List<VkGroup>? UserGroups { get; set; } = new();
+    public VkUserDto(long vkId) => VkId = vkId;
     public VkUserDto(long vkId,
-        List<VkUser>? userFriFri,
-        List<VkUser>? userFri,
-        List<VkGroup>? userGroups)
+        List<VkUser>? userFriFri = null,
+        List<VkUser>? userFri = null,
+        List<VkGroup>? userGroups = null)
     {
         VkId = vkId;
-        UserFriFri = userFriFri;
-        UserFri = userFri;
-        UserGroups = userGroups;
+        if (userFriFri != null) UserFriFri = userFriFri;
+        if (userFri != null) UserFri = userFri;
+        if (userGroups != null) UserGroups = userGroups;
     }
 
     public VkUserDao ToVkUserDao()
@@ -33,5 +34,15 @@ public class VkUserDto
             UserFriFri = UserFriFri?.ConvertAll(user => new DataBaseModels.User(user.Id))
                 
         };
+    }
+
+    public User ToUser()
+    {
+        return new User(VkId)
+        {
+            Communities = UserGroups?.ConvertAll(group => new DataBaseModels.Community(group.Id)),
+            Friends = UserFri?.ConvertAll(user => new DataBaseModels.User(user.Id)),
+        };
+
     }
 }

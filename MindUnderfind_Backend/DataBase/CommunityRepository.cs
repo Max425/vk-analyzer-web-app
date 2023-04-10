@@ -12,7 +12,7 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            await Task.Run(() => Db.Communities.ToList());
+            return await Task.Run(() => Db.Communities.ToList());
         }
         catch
         {
@@ -26,7 +26,7 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
+            return await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
         }
         catch
         {

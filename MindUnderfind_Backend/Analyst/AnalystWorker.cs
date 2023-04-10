@@ -1,11 +1,19 @@
 ﻿using VkNet.Enums.Filters;
 using VkNet.Model;
+using ModelTranslator;
 using ModelTranslator.DTO;
 using ModelTranslator.DAO;
 using DataBaseAPI;
 using Config;
 using VkApi;
+using VkNet.Model.Attachments;
+using Microsoft.EntityFrameworkCore.Query;
 
+using VkUser = VkNet.Model.User;
+using VkGroup = VkNet.Model.Group;
+using DataBaseModels;
+using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
 
 namespace Analyst;
 
@@ -19,18 +27,18 @@ public class AnalystWorker
 
         isNeedRequestToVkApi = true;
 
-        var vkResult = new VkDao("None");
+        var vkResult = new VkDao(Process.None);
         if (isNeedRequestToVkApi)
             vkResult = RequestVkApi(request);
 
         switch (vkResult.ProcessType)
         {
-            case "Community":
-            case "Friends":
-            case "FriendsOfFriends":
+            case Process.Community:
+            case Process.Friends:
+            case Process.FriendsOfFriends:
                 Console.WriteLine("");
                 break;
-            case "None":
+            case Process.None:
                 Console.WriteLine("Запрос VK API не был сделан.");
                 break;
             default:
@@ -40,15 +48,15 @@ public class AnalystWorker
 
         var result = new ResponseDao(request.VkId);
 
+        result.UserArr.AddRange(vkResult.Community.Users);
 
-        // result.UserArr.AddRange(VkResult.GroupUsers);
-        // result.GroupArr.AddRange(VkResult.UserGroups);
+        result.GroupArr.AddRange(vkResult.User.Communities);
+        foreach (var user in vkResult.Community.Users)
+        {
+            result.GroupArr.AddRange(user.Communities);
+        }
 
-        //IEnumerable<CommunityUsers> communityUsers = new();
-
-        // foreach ()
-
-        //result.CommunityUser.AddRange();
+        result.GroupArr = result.GroupArr.GroupBy(x => x.VkId).Select((y) => y.First()).ToList();
 
         return result;
     }
@@ -59,14 +67,15 @@ public class AnalystWorker
 
         // check db func
 
-        //return new DataDao(new List<int> { 1, 2, 3}, new List<int> { 4, 5, 6}, new Dictionary<int, int> { {1, 4}, {2, 4} });
         return new DataDao();
     }
 
     private VkDao RequestVkApi(RequestDao request)
     {
-        // Create result obj
-        var vkDto = new VkUserDto();
+        var vkUserDto = new VkUserDto(request.VkId);
+        var vkGroupDto = new VkGroupDto(request.VkId);
+
+        VkDao resultDao = new VkDao();
 
         // Autorize in VK
         var api = new VkNet.VkApi();
@@ -77,22 +86,26 @@ public class AnalystWorker
             Settings = Settings.All
         }) ;
         var vk = new VkApiWorker(api);
-        var user = new User
-        {
-            Id = request.VkId
-        };
 
-        // Get Data
-        /*
-        vkDto.UserGroups = vk.GetUserGroups(user);
-
-        if (request.ComVkId > 0)
+        // Create result obj
+        switch (request.ProcessType)
         {
-            vkDto.GroupUsers = vk.GetUsersByGroupId(request.ComVkId.ToString());
+            case Process.Community:
+                resultDao = RequestVkApiAboutCommunity(request, vk);
+                break;
+            case Process.Friends:
+                resultDao = new VkDao();
+                break;
+            case Process.FriendsOfFriends:
+                resultDao = new VkDao();
+                break;
+            case Process.None:
+                Console.WriteLine("Запрос VK API не был сделан.");
+                break;
+            default:
+                Console.WriteLine("ERROR! Неожиданный результат в swith (VkResult.ProcessType).");
+                break;
         }
-
-        VkDao vkDao = vkDto.ToVkDao();
-        */
 
         // Send to DB
         DataBase db = new();
@@ -100,10 +113,12 @@ public class AnalystWorker
         CommunityRepository apiCom = new(new DataBaseContext.Context());
         CommunityUserRepository apiComUser = new(new DataBaseContext.Context());
 
+        
+        db.AddList<DataBaseModels.Community>(apiCom, new List<Community>() { resultDao.Community });
+        foreach(var user in resultDao.Community.Users)
+            db.AddList<DataBaseModels.Community>(apiCom, user.Communities);
+        db.AddList<DataBaseModels.User>(apiUser, resultDao.Community.Users);
         /*
-        db.AddList<DataBaseModels.Community>(apiCom, vkDao.UserGroups);
-        db.AddList<DataBaseModels.User>(apiUser, vkDao.GroupUsers);
-
         db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
 
@@ -112,6 +127,45 @@ public class AnalystWorker
 
         */
 
-        return new VkCommunityDao();
+        return resultDao;
+    }
+
+    private VkDao RequestVkApiAboutCommunity(RequestDao request, VkApiWorker vk)
+    {
+        VkDao result = new(Process.Community);
+
+        // Выделить в отдельный асинхронный метод запрос о пользователе
+        // Task client = RequestVkClient(request.VkId, vk);
+        // DataBaseModels.User userClient = new VkUserDto(request.VkId) { UserGroups = vk.GetUserGroups(new VkUser() { Id = request.VkId }) }.ToUser();
+
+        Community community = (new VkGroupDto(request.ComVkId, vk.GetUsersByGroupId(request.ComVkId.ToString()))).ToCommunity();
+
+
+        int count = 0;
+            foreach (var user in community.Users)
+        {
+            VkUser vkUser = new VkUser() { Id = user.VkId};
+            var tmp = vk.GetUserGroups(vkUser)?.ConvertAll(group => new Community(group.Id));
+            if (tmp != null)
+                user.Communities.AddRange(tmp);
+
+            count++;
+
+            if (count > 10)
+                break;
+        }
+
+        result.Community = community;
+        result.User = RequestVkClient(request.VkId, vk);
+
+        return result;
+    }
+
+    private DataBaseModels.User RequestVkClient(long vkId, VkApiWorker vk)
+    {
+        //var clientRequest = Task.Run(() => new VkUserDto(vkId) { UserGroups = vk.GetUserGroups(new VkUser() { Id = vkId }) }.ToUser());
+        // await clientRequest;
+
+        return new VkUserDto(vkId) { UserGroups = vk.GetUserGroups(new VkUser() { Id = vkId }) }.ToUser();
     }
 }

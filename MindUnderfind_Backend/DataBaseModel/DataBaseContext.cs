@@ -15,7 +15,7 @@ public sealed class Context : DbContext
     //Создавая объект контекста автоматически пробуем подключиться к БД
     public Context()
     {
-        Database.EnsureDeleted();
+        // Database.EnsureDeleted();
         Database.EnsureCreated();
     }
 
@@ -33,14 +33,14 @@ public sealed class Context : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //modelBuilder.Entity<CommunityUsers>().HasNoKey();
-        modelBuilder.Entity<UserFriend>().HasNoKey();
+        // modelBuilder.Entity<UserFriend>().HasNoKey();
 
         modelBuilder.Entity<CommunityUsers>().HasKey(x => new { x.CommunityId, x.UserId });
 
         modelBuilder.Entity<User>().HasMany(u => u.Communities);
         modelBuilder.Entity<Community>().HasMany(u => u.Users);
 
-        modelBuilder.Entity<User>().HasMany(u => u.Friends);
-        modelBuilder.Entity<User>().HasMany(u => u.Friends);
+        // modelBuilder.Entity<User>().HasMany(u => u.Friends);
+        // modelBuilder.Entity<User>().HasMany(u => u.Friends);
     }
 }

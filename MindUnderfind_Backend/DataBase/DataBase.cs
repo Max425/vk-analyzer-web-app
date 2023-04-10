@@ -7,25 +7,35 @@ public class DataBase
     public DataBase() { }
     public void AddList<T> (IRepository<T> repo, List<T> val) where T: class
     {
-        if (val == null)
-            throw new ArgumentNullException(nameof(val));
+        IEnumerable<T> newEl = val;
 
-        var list = repo.GetList().Result;
+        try
+        {
+            if (val == null)
+                throw new ArgumentNullException(nameof(val));
 
-        if (list == null)
-            throw new ArgumentNullException(nameof(val));
+            var list = repo.GetList().Result;
 
-        var set = list.Union(val);
-        var general = list.Intersect(val);
+            if (list == null)
+                throw new ArgumentNullException(nameof(val));
 
-        var newEl = set.Except(general);
+            var set = list.Union(val);
+            var general = list.Intersect(val);
 
-        foreach(var el in newEl)
+            newEl = set.Except(general);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        foreach (var el in newEl)
         {
             repo.CreateAsync(el);
         }
 
         repo.SaveAsync();
+
     }
 
     public void AddRelationsList(IRepositoryRelationship<CommunityUsers> repo, Community one, List<User> many)

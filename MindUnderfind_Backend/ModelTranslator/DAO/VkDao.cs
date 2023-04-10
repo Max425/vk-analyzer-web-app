@@ -1,15 +1,18 @@
-﻿namespace ModelTranslator.DAO;
+﻿using DataBaseModels;
+
+namespace ModelTranslator.DAO;
 
 public class VkDao
 {
-    public long UserVkId { get; set; }
-    public readonly string ProcessType;
-    public VkDao(string str) => ProcessType = str;
+    public User User { get; set; }
+    public Community Community { get; set; }
+    public readonly Process ProcessType;
+    public VkDao(Process process = Process.None) => ProcessType = process;
 }
-public class VkCommunityDao : VkDao
+/*public class VkCommunityDao : VkDao
 {
-    public IEnumerable<VkGroupDao> VkGroupDaos { get; set; } = null!;
-    public IEnumerable<VkUserDao> VkGroupUsersDaos { get; set; } = null!;
+    public long GroupVkId { get; set; }
+    public IEnumerable<VkUserDao> VkGroupUsersDao { get; set; } = null!;
     public IEnumerable<VkGroupDao> VkGroupUsersGroups { get; set; } = null!;
 
     public VkCommunityDao() : base("Community") { }
@@ -28,4 +31,4 @@ public class VkFriendsFriendDao : VkDao
     public IEnumerable<VkGroupDao> VkFriendFriendGroups { get; set; } = null!;
 
     public VkFriendsFriendDao() : base("FriendsOfFriends") { }
-}
+} */
