@@ -12,8 +12,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using VkUser = VkNet.Model.User;
 using VkGroup = VkNet.Model.Group;
 using DataBaseModels;
-using System.Security.Cryptography.X509Certificates;
-using System.Runtime.CompilerServices;
+using System.Data;
 
 namespace Analyst;
 
@@ -28,32 +27,28 @@ public class AnalystWorker
         isNeedRequestToVkApi = true;
 
         var vkResult = new VkDao(Process.None);
-        if (isNeedRequestToVkApi)
-            vkResult = RequestVkApi(request);
 
-        switch (vkResult.ProcessType)
+        try
         {
-            case Process.Community:
-            case Process.Friends:
-            case Process.FriendsOfFriends:
-                Console.WriteLine("");
-                break;
-            case Process.None:
-                Console.WriteLine("Запрос VK API не был сделан.");
-                break;
-            default:
-                Console.WriteLine("ERROR! Неожиданный результат в swith (VkResult.ProcessType).");
-                break;
+            if (isNeedRequestToVkApi)
+                vkResult = RequestVkApi(request);
+        }
+        catch (Exception ex)
+        {
+            throw;
         }
 
         var result = new ResponseDao(request.VkId);
 
-        result.UserArr.AddRange(vkResult.Community.Users);
-
-        result.GroupArr.AddRange(vkResult.User.Communities);
-        foreach (var user in vkResult.Community.Users)
+        if (isNeedRequestToVkApi)
         {
-            result.GroupArr.AddRange(user.Communities);
+            result.UserArr.AddRange(vkResult.Community.Users);
+
+            result.GroupArr.AddRange(vkResult.User.Communities);
+            foreach (var user in vkResult.Community.Users)
+            {
+                result.GroupArr.AddRange(user.Communities);
+            }
         }
 
         result.GroupArr = result.GroupArr.GroupBy(x => x.VkId).Select((y) => y.First()).ToList();
@@ -113,11 +108,18 @@ public class AnalystWorker
         CommunityRepository apiCom = new(new DataBaseContext.Context());
         CommunityUserRepository apiComUser = new(new DataBaseContext.Context());
 
+        try
+        {
+            db.AddList<DataBaseModels.Community>(apiCom, new List<Community>() { resultDao.Community });
+            foreach (var user in resultDao.Community.Users)
+                db.AddList<DataBaseModels.Community>(apiCom, user.Communities);
+            db.AddList<DataBaseModels.User>(apiUser, resultDao.Community.Users);
+        }
+        catch(Exception ex)
+        {
+            throw;
+        }
         
-        db.AddList<DataBaseModels.Community>(apiCom, new List<Community>() { resultDao.Community });
-        foreach(var user in resultDao.Community.Users)
-            db.AddList<DataBaseModels.Community>(apiCom, user.Communities);
-        db.AddList<DataBaseModels.User>(apiUser, resultDao.Community.Users);
         /*
         db.AddRelationsList(apiComUser, new Community(request.ComVkId), vkDao.GroupUsers);
 
@@ -142,7 +144,7 @@ public class AnalystWorker
 
 
         int count = 0;
-            foreach (var user in community.Users)
+        foreach (var user in community.Users)
         {
             VkUser vkUser = new VkUser() { Id = user.VkId};
             var tmp = vk.GetUserGroups(vkUser)?.ConvertAll(group => new Community(group.Id));
@@ -155,11 +157,41 @@ public class AnalystWorker
                 break;
         }
 
+        // 
+
         result.Community = community;
         result.User = RequestVkClient(request.VkId, vk);
 
         return result;
     }
+
+    /*private IEnumerable<Community> SplitForeach(IEnumerable<Community> list, Community community)
+    {
+        const int splitCap = 15;
+
+        var tasks = new IEnumerable<Task<IEnumerable<Community>>>() { };
+        var it = community.Users.Count / splitCap;
+
+
+        for (int i = 0; i < it; i++)
+        {
+            tasks.Append(new Task<IEnumerable<Community>>(() => StartForeach(community.Users.Skip(splitCap * i))));
+        }
+
+        for (int j = 0; j < it; j++)
+        {
+            list.
+        }
+
+
+
+        return list;
+    }
+
+    private IEnumerable<Community> StartForeach(IEnumerable<DataBaseModels.User> users)
+    {
+
+    }*/
 
     private DataBaseModels.User RequestVkClient(long vkId, VkApiWorker vk)
     {

@@ -15,46 +15,55 @@ public class DataBase
                 throw new ArgumentNullException(nameof(val));
 
             var list = repo.GetList().Result;
-
-            if (list == null)
-                throw new ArgumentNullException(nameof(val));
-
             var set = list.Union(val);
             var general = list.Intersect(val);
 
             newEl = set.Except(general);
+
+            foreach (var el in newEl)
+            {
+                repo.CreateAsync(el);
+            }
+
+            repo.SaveAsync();
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            throw;
         }
-
-        foreach (var el in newEl)
-        {
-            repo.CreateAsync(el);
-        }
-
-        repo.SaveAsync();
-
     }
 
     public void AddRelationsList(IRepositoryRelationship<CommunityUsers> repo, Community one, List<User> many)
     {
-        foreach (var el in many)
-        {
-            repo.CreateAsync(new CommunityUsers(one, el));
-        }
+        try
+        { 
+            foreach (var el in many)
+            {
+                repo.CreateAsync(new CommunityUsers(one, el));
+            }
 
-        repo.SaveAsync();
+            repo.SaveAsync();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
     public void AddRelationsList(IRepositoryRelationship<CommunityUsers> repo, User one, List<Community> many)
     {
-        foreach (var el in many)
+        try
         {
-            repo.CreateAsync(new CommunityUsers(el, one));
-        }
+            foreach (var el in many)
+            {
+                repo.CreateAsync(new CommunityUsers(el, one));
+            }
 
-        repo.SaveAsync();
+            repo.SaveAsync();
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
 

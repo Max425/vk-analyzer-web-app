@@ -16,6 +16,7 @@ namespace EmptyMVC.Views.Home
         public List<User> UsersArr { get; set; } = new();
         public List<Community> GroupsArr { get; set; } = new();
         public List<CommunityUsers> CommunityUser { get; set; } = new();
+        public int ErCode { get; set; } = 200;
 
         public AnswerModel() { }
         public AnswerModel(int vkId, Process processType, int comVkId, List<User> usersArr,

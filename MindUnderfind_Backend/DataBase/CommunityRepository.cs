@@ -1,6 +1,7 @@
 ﻿using DataBaseContext;
 using DataBaseModels;
 using Microsoft.EntityFrameworkCore;
+using VkNet.Model;
 
 namespace DataBaseAPI;
 
@@ -12,28 +13,24 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            return await Task.Run(() => Db.Communities.ToList());
+            return await Db.Communities.ToListAsync();
         }
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine($"Не удалось получить список Community.");
+            throw;
         }
-
-        return null;
     }
 
     public async Task<Community?> Get(int id)
     {
         try
         {
-            return await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
+            return await Db.Communities.FirstAsync(x => x.VkId == id);
         }
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine($"Не удалось получить Community по VkId: {id}.");
+            throw new Exception(ex.Message);
         }
-            
-        return null;
     }
 
     public async Task CreateAsync(Community community)
@@ -49,7 +46,7 @@ public class CommunityRepository : IRepository<Community>
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw new Exception(ex.Message);
         }
     }
 
@@ -65,9 +62,9 @@ public class CommunityRepository : IRepository<Community>
             comm.VkId = community.VkId;
             comm.LastUpdate = community.LastUpdate;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw new Exception(ex.Message);
         }
     }
 

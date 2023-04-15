@@ -24,9 +24,20 @@ public class ProcessController : Controller
     public IActionResult Answer (RequestDto processDto)
     {
         var analyst = new AnalystWorker();
-        var responseDto = analyst.GetData(processDto.ToRequestDao());
+        try
+        {
+            var responseDto = analyst.GetData(processDto.ToRequestDao());
+            var answer = new AnswerModel(processDto, responseDto);
+            return View("Answer", answer);
+        }
+        catch (Exception ex)
+        {
+            var answer = new AnswerModel();
+            answer.ErCode = 500;
+            return View("Answer", answer);
+        }
+        
 
-        var answer = new AnswerModel(processDto, responseDto);
-        return View("Answer", answer);
+        
     }
 }
