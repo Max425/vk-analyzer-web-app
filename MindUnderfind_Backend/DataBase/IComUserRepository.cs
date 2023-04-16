@@ -1,33 +1,39 @@
-﻿namespace DataBaseAPI;
+﻿using DataBaseModels;
 
-public interface IRepository<T>
+namespace DataBaseAPI;
+
+public interface IComUserRepository : IRelationshipRepository<CommunityUsers>
 {
     /// <summary>
     /// Получение всех объектов данного репазитория
     /// </summary>
-    /// <returns>Task<IEnumerable<T>></returns>
-    public Task<IEnumerable<T>?> GetList();
+    /// <returns>Task<IEnumerable<CommunityUsers>></returns>
+    public Task<IEnumerable<CommunityUsers>?> GetList();
+
     /// <summary>
     /// Получение одного объекта по ID
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns>Task<T?></returns>
-    public Task<T?> Get(int id);
+    /// <param name="idFirst"></param>
+    /// <param name="idSecond"></param>
+    /// <returns>Task<CommunityUsers?></returns>
+    public Task<CommunityUsers?> Get(int idFirst, int idSecond);
     /// <summary>
     /// создание объекта
     /// </summary>
     /// <param name="item"></param>
     /// <returns>Task</returns>
-    public Task CreateAsync(T item);
+    public Task CreateAsync(CommunityUsers item);
     /// <summary>
     /// обновление объекта
     /// </summary>
     /// <param name="item"></param>
     /// <returns>Task</returns>
-    public Task UpdateAsync(T item);
+    public Task UpdateAsync(CommunityUsers item);
+
     /// <summary>
     /// удаление объекта по ID
     /// </summary>
+    /// <param name="item"></param>
     /// <returns>Task</returns>
-    public Task DeleteAsync(int id);
+    public Task DeleteAsync(CommunityUsers item);
 }

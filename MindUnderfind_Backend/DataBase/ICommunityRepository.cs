@@ -1,30 +1,32 @@
-﻿namespace DataBaseAPI;
+﻿using DataBaseModels;
 
-public interface IRepository<T>
+namespace DataBaseAPI;
+
+public interface ICommunityRepository : IRepository<Community>
 {
     /// <summary>
     /// Получение всех объектов данного репазитория
     /// </summary>
-    /// <returns>Task<IEnumerable<T>></returns>
-    public Task<IEnumerable<T>?> GetList();
+    /// <returns>Task<IEnumerable<Community>></returns>
+    public Task<IEnumerable<Community>?> GetList();
     /// <summary>
     /// Получение одного объекта по ID
     /// </summary>
     /// <param name="id"></param>
-    /// <returns>Task<T?></returns>
-    public Task<T?> Get(int id);
+    /// <returns>Task<Community?></returns>
+    public Task<Community?> Get(int id);
     /// <summary>
     /// создание объекта
     /// </summary>
     /// <param name="item"></param>
     /// <returns>Task</returns>
-    public Task CreateAsync(T item);
+    public Task CreateAsync(Community item);
     /// <summary>
     /// обновление объекта
     /// </summary>
     /// <param name="item"></param>
     /// <returns>Task</returns>
-    public Task UpdateAsync(T item);
+    public Task UpdateAsync(Community item);
     /// <summary>
     /// удаление объекта по ID
     /// </summary>

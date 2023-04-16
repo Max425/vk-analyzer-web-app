@@ -4,65 +4,60 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseAPI;
 
-public class CommunityUserRepository : IRepositoryRelationship<CommunityUsers>
+public class CommunityUserRepository : IComUserRepository
 {
-    private Context Db { get; }
-    public CommunityUserRepository(Context newDb) { Db = newDb; }
+    private readonly Context _context;
+    public CommunityUserRepository(Context newDb) { _context = newDb; }
     public async Task<IEnumerable<CommunityUsers>?> GetList()
     {
         try
         {
-            await Task.Run(() => Db.CommunityUsers.ToList());
+            return await _context.CommunityUsers.ToListAsync();
         }
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine($"Не удалось получить список communityUsers.");
+            throw;
         }
-
-        return null;
-
     }
 
     public async Task<CommunityUsers?> Get(int idFirst, int idSecond)
     {
         try
         {
-            await Task.Run(() => Db.CommunityUsers.FirstOrDefault(x => x.CommunityId == idFirst
-                                                                       && x.UserId == idSecond));
+            return await _context.CommunityUsers.FirstAsync(x => x.CommunityId == idFirst
+                                                                       && x.UserId == idSecond);
         }
-        catch
+        catch (Exception ex)
         {
-            Console.WriteLine($"Не удалось получить CommunityUsers по VkId: {idFirst} - {idSecond}.");
+            throw;
         }
-
-        return null;
     }
 
     public async Task CreateAsync(CommunityUsers communityUsers)
     {
         try
         {
-            var chainExists = await Db.CommunityUsers.AnyAsync(x => x.CommunityId == communityUsers.CommunityId
+            var chainExists = await _context.CommunityUsers.AnyAsync(x => x.CommunityId == communityUsers.CommunityId
                                                                     && x.UserId == communityUsers.UserId);
 
             if (chainExists)
                 throw new Exception($"community-user chain with vk id = {communityUsers.CommunityId}-{communityUsers.UserId} already exists");
 
-            await Db.CommunityUsers.AddAsync(communityUsers);
+            await _context.CommunityUsers.AddAsync(communityUsers);
+
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw;
         }
-
-        await Db.SaveChangesAsync(); //?
     }
 
     public async Task UpdateAsync(CommunityUsers communityUsers)
     {
         try
         {
-            var chain = Db.CommunityUsers.FirstOrDefault(x => x.CommunityId == communityUsers.CommunityId
+            var chain = _context.CommunityUsers.FirstOrDefault(x => x.CommunityId == communityUsers.CommunityId
                                                               && x.UserId == communityUsers.UserId);
 
             if (chain == null)
@@ -70,37 +65,32 @@ public class CommunityUserRepository : IRepositoryRelationship<CommunityUsers>
 
             chain.CommunityId = communityUsers.CommunityId;
             chain.UserId = communityUsers.UserId;
+
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw;
         }
-
-        await Db.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(CommunityUsers communityUsers)
     {
         try
         {
-            var delete = Db.CommunityUsers.FirstOrDefault(x => x.CommunityId == communityUsers.CommunityId
+            var delete = _context.CommunityUsers.FirstOrDefault(x => x.CommunityId == communityUsers.CommunityId
                                                                && x.UserId == communityUsers.UserId);
 
             if (delete == null)
                 throw new Exception($"user-friend chain with vk id = {communityUsers.CommunityId}-{communityUsers.UserId} already not exists =)");
 
-            Db.CommunityUsers.Remove(delete);
+            _context.CommunityUsers.Remove(delete);
+
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw;
         }
-
-        await Db.SaveChangesAsync();
-    }
-
-    public async Task SaveAsync()
-    {
-        await Db.SaveChangesAsync();
     }
 }

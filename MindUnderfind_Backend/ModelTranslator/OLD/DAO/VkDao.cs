@@ -4,8 +4,8 @@ namespace ModelTranslator.DAO;
 
 public class VkDao
 {
-    public User User { get; set; }
-    public Community Community { get; set; }
+    public UserDao User { get; set; }
+    public CommunityDao Community { get; set; }
     public readonly Process ProcessType;
     public VkDao(Process process = Process.None) => ProcessType = process;
 }

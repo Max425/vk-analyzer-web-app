@@ -14,12 +14,4 @@ public class User
         VkId = vkId;
         Rights = rights;
     }
-    public override bool Equals(object? obj)
-    {
-        if (obj is User user) return VkId == user.VkId;
-        return false;
-    }
-    public override int GetHashCode() => VkId.GetHashCode();
-    public override string ToString() => $"UserAccount https://vk.com/id{VkId}";
-    public string GetUrl() => $"https://vk.com/id{VkId}";
 }

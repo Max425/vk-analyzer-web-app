@@ -5,15 +5,15 @@ using VkNet.Model;
 
 namespace DataBaseAPI;
 
-public class CommunityRepository : IRepository<Community>
+public class CommunityRepository : ICommunityRepository
 {
-    private Context Db { get; }
-    public CommunityRepository(Context newDb) { Db = newDb; }
+    private readonly Context _context;
+    public CommunityRepository(Context newDb) { _context = newDb; }
     public async Task<IEnumerable<Community>?> GetList()
     {
         try
         {
-            return await Db.Communities.ToListAsync();
+            return await _context.Communities.ToListAsync();
         }
         catch (Exception ex)
         {
@@ -25,7 +25,7 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            return await Db.Communities.FirstAsync(x => x.VkId == id);
+            return await _context.Communities.FirstAsync(x => x.VkId == id);
         }
         catch (Exception ex)
         {
@@ -37,12 +37,13 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            var communityExists = await Db.Communities.AnyAsync(c => c.VkId == community.VkId);
+            var communityExists = await _context.Communities.AnyAsync(c => c.VkId == community.VkId);
 
             if (communityExists)
                 throw new Exception($"community with vk id = {community.VkId} already exists");
 
-            await Db.Communities.AddAsync(community);
+            await _context.Communities.AddAsync(community);
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -54,13 +55,15 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            var comm = await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == community.VkId));
+            var comm = await Task.Run(() => _context.Communities.FirstOrDefault(x => x.VkId == community.VkId));
 
             if (comm == null)
                 throw new Exception($"community with vk id = {community.VkId} not exists");
 
             comm.VkId = community.VkId;
             comm.LastUpdate = community.LastUpdate;
+
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -72,21 +75,18 @@ public class CommunityRepository : IRepository<Community>
     {
         try
         {
-            var delete = await Task.Run(() => Db.Communities.FirstOrDefault(x => x.VkId == id));
+            var delete = await Task.Run(() => _context.Communities.FirstOrDefault(x => x.VkId == id));
 
             if (delete == null)
                 throw new Exception($"community with vk id = {id} already not exists =)");
 
-            Db.Communities.Remove(delete);
+            _context.Communities.Remove(delete);
+
+            await _context.SaveChangesAsync();
         }
         catch(Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
-    }
-
-    public async Task SaveAsync()
-    {
-        await Db.SaveChangesAsync();
     }
 }

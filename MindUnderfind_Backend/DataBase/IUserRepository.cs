@@ -1,36 +1,35 @@
-﻿namespace DataBaseAPI;
+﻿using DataBaseModels;
 
-public interface IRepositoryRelationship<T> where T : class
+namespace DataBaseAPI;
+
+public interface IUserRepository : IRepository<User>
 {
     /// <summary>
     /// Получение всех объектов данного репазитория
     /// </summary>
-    /// <returns>IEnumerable<T></returns>
-    Task<IEnumerable<T>?> GetList();
-
+    /// <returns>Task<IEnumerable<User>></returns>
+    public Task<IEnumerable<User>?> GetList();
     /// <summary>
     /// Получение одного объекта по ID
     /// </summary>
-    /// <param name="idFirst"></param>
-    /// <param name="idSecond"></param>
-    /// <returns></returns>
-    Task<T?> Get(int idFirst, int idSecond);
+    /// <param name="id"></param>
+    /// <returns>Task<User?></returns>
+    public Task<User?> Get(int id);
     /// <summary>
     /// создание объекта
     /// </summary>
     /// <param name="item"></param>
-    Task CreateAsync(T item);
+    /// <returns>Task</returns>
+    public Task CreateAsync(User item);
     /// <summary>
     /// обновление объекта
     /// </summary>
     /// <param name="item"></param>
-    Task UpdateAsync(T item);
-
+    /// <returns>Task</returns>
+    public Task UpdateAsync(User item);
     /// <summary>
     /// удаление объекта по ID
     /// </summary>
-    /// <param name="item"></param>
-    Task DeleteAsync(T item);
-        
-    Task SaveAsync();  // сохранение изменений
+    /// <returns>Task</returns>
+    public Task DeleteAsync(int id);
 }

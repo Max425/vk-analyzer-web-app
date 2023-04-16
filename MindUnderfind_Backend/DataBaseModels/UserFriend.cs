@@ -1,8 +1,7 @@
 ﻿namespace DataBaseModels;
 
 public class UserFriend
-{
-    private long FirstVkId { get; }
+{g FirstVkId { get; }
     //public User? FirstUser { get; set; }
     private long SecondVkId { get; }
     //public User? SecondUser { get; set; }

@@ -19,11 +19,4 @@ public class Community
     {
         Users = users;
     }
-    public override string ToString() => $"Community VkId: https://vk.com/public{VkId}";
-    public string GetUrl() => $"https://vk.com/public{VkId}";
-    public override bool Equals(object? obj)
-    {
-        return obj is Community com && VkId == com.VkId;
-    }
-    public override int GetHashCode() => VkId.GetHashCode();
 }

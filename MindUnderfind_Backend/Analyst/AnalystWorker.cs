@@ -16,11 +16,17 @@ using System.Data;
 
 namespace Analyst;
 
-public class AnalystWorker
+public class AnalystWorker : IAnalystWorker
 {
+    private readonly IDataBase _dataBase;
+    public AnalystWorker(IDataBase dataBase)
+    {
+        _dataBase = dataBase;
+    }
+
     public ResponseDao GetData(RequestDao request)
     {
-        var bbResult = CheckDb(request, out var isNeedRequestToVkApi);
+        var dbResult = RequestDataBase(request, out var isNeedRequestToVkApi);
         // доступ к бд пока не сделан - нужна еще одна прослойка
         // Рома, не забудь
 
@@ -56,7 +62,7 @@ public class AnalystWorker
         return result;
     }
 
-    private DataDao CheckDb(RequestDao requestDao, out bool needRequest)
+    public DataDao RequestDataBase(RequestDao requestDao, out bool needRequest)
     {
         needRequest = false;
 
@@ -65,11 +71,8 @@ public class AnalystWorker
         return new DataDao();
     }
 
-    private VkDao RequestVkApi(RequestDao request)
+    public VkDao RequestVkApi(RequestDao request)
     {
-        var vkUserDto = new VkUserDto(request.VkId);
-        var vkGroupDto = new VkGroupDto(request.VkId);
-
         VkDao resultDao = new VkDao();
 
         // Autorize in VK
@@ -103,17 +106,12 @@ public class AnalystWorker
         }
 
         // Send to DB
-        DataBase db = new();
-        UserRepository apiUser = new(new DataBaseContext.Context());
-        CommunityRepository apiCom = new(new DataBaseContext.Context());
-        CommunityUserRepository apiComUser = new(new DataBaseContext.Context());
-
         try
         {
-            db.AddList<DataBaseModels.Community>(apiCom, new List<Community>() { resultDao.Community });
+            /*_dataBase.AddList(new List<Community>() { resultDao.Community });
             foreach (var user in resultDao.Community.Users)
-                db.AddList<DataBaseModels.Community>(apiCom, user.Communities);
-            db.AddList<DataBaseModels.User>(apiUser, resultDao.Community.Users);
+                _dataBase.AddList<DataBaseModels.Community>(apiCom, user.Communities);
+            _dataBase.AddList<DataBaseModels.User>(apiUser, resultDao.Community.Users);*/
         }
         catch(Exception ex)
         {
@@ -137,10 +135,11 @@ public class AnalystWorker
         VkDao result = new(Process.Community);
 
         // Выделить в отдельный асинхронный метод запрос о пользователе
+
         // Task client = RequestVkClient(request.VkId, vk);
         // DataBaseModels.User userClient = new VkUserDto(request.VkId) { UserGroups = vk.GetUserGroups(new VkUser() { Id = request.VkId }) }.ToUser();
 
-        Community community = (new VkGroupDto(request.ComVkId, vk.GetUsersByGroupId(request.ComVkId.ToString()))).ToCommunity();
+        CommunityDao community = (new CommunityDao(request.ComVkId, vk.GetUsersByGroupId( request.ComVkId.ToString() ).ConvertAll(x => ConverterMU.ToUserDao(x)) ));
 
 
         int count = 0;
@@ -199,5 +198,11 @@ public class AnalystWorker
         // await clientRequest;
 
         return new VkUserDto(vkId) { UserGroups = vk.GetUserGroups(new VkUser() { Id = vkId }) }.ToUser();
+    }
+
+    public ResponseDao StartCalculation(RequestDao request)
+    {
+        ResponseDao response = new(1, 1);
+        return response;
     }
 }

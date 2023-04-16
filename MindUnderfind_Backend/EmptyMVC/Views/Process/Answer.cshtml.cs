@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics.Tracing;
 using DataBaseModels;
 using ModelTranslator.DAO;
+using ModelTranslator;
 using ModelTranslator.DTO;
 using ModelTranslator;
 
@@ -13,9 +14,9 @@ namespace EmptyMVC.Views.Home
         public int VkId { get; set; } = -1;
         public Process ProcessType { get; set; } = Process.None;
         public int ComVkId { get; set; } = -1;
-        public List<User> UsersArr { get; set; } = new();
-        public List<Community> GroupsArr { get; set; } = new();
-        public List<CommunityUsers> CommunityUser { get; set; } = new();
+        public List<UserDao> UsersArr { get; set; } = new();
+        public List<CommunityDao> GroupsArr { get; set; } = new();
+        public List<CommunityUserDao> CommunityUser { get; set; } = new();
         public int ErCode { get; set; } = 200;
 
         public AnswerModel() { }
@@ -25,9 +26,9 @@ namespace EmptyMVC.Views.Home
             VkId = vkId;
             ProcessType = processType;
             ComVkId = comVkId;
-            UsersArr = usersArr;
-            GroupsArr = groupsArr;
-            CommunityUser = communityUsers;
+            UsersArr = usersArr.ConvertAll((user) => ConverterMU.ToUserDao(user));
+            GroupsArr = groupsArr.ConvertAll((group) => ConverterMU.ToCommunityDao(group));
+            CommunityUser = communityUsers.ConvertAll((cm) => ConverterMU.ToComUserDao(cm));
         }
         public AnswerModel(RequestDto dto, ResponseDao dao) : this(dto.VkId, dto.ProcessType, dto.ComVkId, dao.UserArr, dao.GroupArr, dao.CommunityUser) { }
     }
