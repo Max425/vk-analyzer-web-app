@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: WEB-Application "Свой человек"!
+  description: >-
+    Интересно, насколько вкусы твоего любимого сообщества похожи на твои? Ты
+    попал куда надо! WEB-приложение "Свой человек" проанализирует твоих друзей
+    или нужное тебе сообщество и скажет, насколько они подходят тебе!
+  version: 1.0.0
+servers:
+  - url: https://localhost:7157/Process/Request
+paths:
+  /Process/Request:
+    get:
+      tags:
+        - main
+      summary: Начало обработки
+      description: Главная страница, где пользователь создает свой запрос на обработку
+      operationId: getProcess
+      responses:
+        '200':
+          description: Все ок
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDto'
+        '400':
+          description: Некорректный запрос (недействительный ID сообщества или профиля ВК)
+        default:
+          description: Неожиданная ошибка
+    post:
+      tags:
+        - main
+      summary: Запрос на обработку данных
+      description: Пользователь авторизировался и отправил свой запрос на обработку данных
+      operationId: startProcess
+      requestBody:
+        description: Data for data processing
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsDto'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsDto'
+        '405':
+          description: Invalid input
+  /Process/Answer:
+    get:
+      tags:
+        - main
+      summary: Вывод результатов обработки на страничку пользователю
+      description: Вывод результатов обработки на страничку пользователю
+      operationId: getAnswer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnswerDto'
+        default:
+          description: Unexpexted move
+components:
+  schemas:
+    SettingsDto:
+      type: object
+      properties:
+        VkId:
+          type: integer
+          format: int64
+          example: 454545
+        GroupVkId:
+          type: integer
+          format: int64
+          example: 454554
+        ProcessType:
+          type: string
+          description: >-
+            Типы обработки данных (сообщество, друзья пользователя, друзья
+            друзей пользователя)
+          example: Community
+          enum:
+            - Community
+            - Friends
+            - FriendsOfFriends
+    AnswerDto:
+      type: object
+      properties:
+        UsersDto:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+        GroupsDto:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupDto'
+        ProcentOfMatch:
+          type: integer
+          format: int64
+          example: 46
+    UserDto:
+      type: object
+      properties:
+        VkId:
+          type: integer
+          format: int64
+          example: 454545
+        VkUrl:
+          type: string
+          example: https://vk.com/454545
+    GroupDto:
+      type: object
+      properties:
+        VkId:
+          type: integer
+          format: int64
+          example: 898989
+        VkUrl:
+          type: string
+          example: https://vk.com/898989

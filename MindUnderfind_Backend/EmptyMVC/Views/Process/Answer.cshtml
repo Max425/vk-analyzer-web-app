@@ -1,0 +1,39 @@
+﻿@model EmptyMVC.Views.Home.AnswerModel
+@{
+    string VkId = $"VkId: {Model.VkId}";
+    string ProcessType = $"ProcessType: {Model.ProcessType}";
+    string ComVkId = $"ComVkId: {Model.ComVkId}";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ответ на запрос</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    if ()
+    <p>@VkId</p>
+    <p>@ProcessType</p>
+    <p>@ComVkId</p>
+    <h2>GROUPS</h2>
+    @foreach (var group in Model.GroupsArr)
+    {
+        <a href = "@group.GetUrl()">@group</a><br>
+    }
+
+    <h2>USERS</h2>
+    @foreach (var user in Model.UsersArr)
+    {
+        <a href="@user.GetUrl()">@user</a>
+        <br>
+    }
+
+    <h2>COMMUNITY-USERS</h2>
+    @foreach (var cm in Model.CommunityUser)
+    {
+        <a>@cm</a>
+        <br>
+    }
+</body>
+</html>
+ 
